@@ -1,5 +1,5 @@
 <template>
-  <span class="blablabla">{{ title }}</span>
+  <span class="grey lighten-3 d-line rounded-xl py-2 px-4">{{ title }}</span>
 </template>
 
 <script>

@@ -7,7 +7,6 @@
       </v-content>
     </v-content>
 
-    <BottomNav />
   </v-main>
 </template>
 
@@ -30,7 +29,7 @@ export default {
     Label,
     ToolBar,*/
     Avatar,
-    BottomNav,
+    // BottomNav,
     Title
 
   },

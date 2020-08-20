@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-bottom-navigation hide-on-scroll :value="activeBtn" grow color="teal" height="56px" shift app>
+    <v-bottom-navigation hide-on-scroll :value="activeBtn" grow color="teal" height="56" app>
       <v-btn >
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
