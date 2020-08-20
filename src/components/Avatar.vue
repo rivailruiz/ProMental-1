@@ -1,6 +1,6 @@
 <template>
   <v-avatar size="48">
-    <img src="./../assets/logo.svg" alt="logo" />
+    <img src="./../assets/avatarboy.jpg" alt="logo" />
   </v-avatar>
 </template>
 

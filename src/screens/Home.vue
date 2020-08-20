@@ -1,12 +1,7 @@
 <template>
   <v-main>
     <v-content style="margin: 32px">
-      <div class="message">
-        <Avatar class />
-        <v-content class="d-inline">
-          <Title title="Olá bem vindo ao ProMental"></Title>
-        </v-content>
-      </div>
+      <Message title="Olá mundo"> </Message>
     </v-content>
 
   </v-main>
@@ -19,9 +14,9 @@ import InputTextIdade from "./../components/InputTextIdade.vue";
 import RadioButtonGroup from "./../components/RadioButtonGroup.vue";
 import Title from "./../components/Title.vue";
 import ToolBar from "./../components/ToolBar.vue";*/
-import Avatar from "./../components/Avatar.vue";
+
 // import BottomNav from "./../components/BottomNav.vue";
-import Title from "./../components/Title.vue";
+import Message from "./../components/Message.vue";
 export default {
   components: {
     /*
@@ -30,9 +25,8 @@ export default {
     RadioButtonGroup,
     Label,
     ToolBar,*/
-    Avatar,
     // BottomNav,
-    Title
+    Message
 
   },
 
@@ -50,8 +44,5 @@ export default {
 .margingBetweenLabels {
   margin-top: 8px;
 }
-.message {
-  display: flex;
-  align-items: center;
-}
+
 </style>
