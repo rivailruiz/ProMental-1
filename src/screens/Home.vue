@@ -10,7 +10,7 @@
     <BottomNav />
   </v-main>
 </template>
-  
+
 <script>
 /*import BottomNav from "./../components/BottomNav.vue";
 import CardsGender from "./../components/CardsGender.vue";
@@ -20,7 +20,7 @@ import Title from "./../components/Title.vue";
 import ToolBar from "./../components/ToolBar.vue";*/
 import Avatar from "./../components/Avatar.vue";
 import BottomNav from "./../components/BottomNav.vue";
-import Title from "./../components/Title.js";
+import Title from "./../components/Title.vue";
 export default {
   components: {
     /*
@@ -32,7 +32,7 @@ export default {
     Avatar,
     BottomNav,
     Title
-  
+
   },
 
   data: () => ({
@@ -50,4 +50,3 @@ export default {
   margin-top: 8px;
 }
 </style>
-
