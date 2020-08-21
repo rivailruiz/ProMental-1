@@ -17,6 +17,8 @@
 
 <script>
 export default {
+  name: "BottomNav",
+  
   data() {
     return {
       activeBtn: 1,
