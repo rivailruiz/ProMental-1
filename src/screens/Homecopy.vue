@@ -14,7 +14,8 @@
                     color="primary" 
                     outlined 
                     rounded 
-                    class="button">
+                    class="button"
+                    >
                      Clique aqui para começar
                 </v-btn>
         </v-container>
@@ -38,7 +39,8 @@ export default {
     ],
     StartText: `Cansaço. Irritabilidade. Insonias. Esses podem ser sintomas de stress elevado.
 
-Visando o seu bem estar, nós dispomos de um questionario de saúde mental, que tal começarmos, não tomará muito tempo `
+Visando o seu bem estar, nós dispomos de um questionario de saúde mental, que tal começarmos, não tomará muito tempo `,
+    link: '/FormScreenData'
   }),
 
   methods: {},
