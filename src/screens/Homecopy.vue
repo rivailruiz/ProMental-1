@@ -1,6 +1,6 @@
 <template>
   <!-- <v-main class="border" style="background-color:yellow"> -->
-    <v-container  align-center grey lighten-5 class="mt-auto">
+    <v-container  align-center light-blue lighten-1 class="mt-auto">
         <v-responsive class="border">
             <v-img class=""  src="./../assets/background-image.png" />
         </v-responsive>

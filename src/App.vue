@@ -1,23 +1,23 @@
 <template>
-  <!-- App.vue -->
-  <v-app>
-    <!-- <v-navigation-drawer app>
-    </v-navigation-drawer> -->
+    <!-- App.vue -->
+    <v-app>
+        <!-- <v-navigation-drawer app>
+        </v-navigation-drawer> -->
 
-    <!-- <v-app-bar app>
-      <v-icon> mdi-menu</v-icon>
-      <h2 class="mx-2 " >ProMental </h2>
-    </v-app-bar> -->
+        <!-- <v-app-bar app>
+        <v-icon> mdi-menu</v-icon>
+        <h2 class="mx-2 " >ProMental </h2>
+        </v-app-bar> -->
 
-    <!--Sizes your content based upon application components-->
-    <v-main class="background-main">
-      <!-- Provides the application the proper gutter -->
-      <!-- <v-container style="background-color:red"> -->
-        <router-view></router-view>
-      <!-- </v-container> -->
-    </v-main>
+        <!--Sizes your content based upon application components-->
+        <v-main class="background-main">
+        <!-- Provides the application the proper gutter -->
+        <!-- <v-container style="background-color:red"> -->
+            <router-view></router-view>
+        <!-- </v-container> -->
+        </v-main>
 
-  </v-app>
+    </v-app>
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
   
 }
 .background-main{
-  background-color: #FAFAFA;
+  background-color: #ffff;
 
 }
 </style>

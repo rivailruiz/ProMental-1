@@ -1,22 +1,26 @@
 <template>
-    <v-container class="border mx-auto my-0">
+    <v-container class="border mx-auto my-0" style="background-color:white">
+        
         <v-app-bar app>
-            <v-icon> mdi-arrow-left</v-icon>
+            <v-btn flat elevation="0" fab router :to="home">
+                <v-icon> mdi-arrow-left</v-icon>      
+            </v-btn>
         </v-app-bar>
+        
         <v-form class="border mt-2"> 
-            <p class="text-h5 font-weight-medium border">Qual o seu genero? </p>
+            <p class="text-h5 font-weight-medium border">Qual o seu sexo? </p>
             
             <v-item-group active-class="active">    
                 <v-layout justify-space-around>    
-                    <v-flex class="pa-2" xs6>
+                    <v-flex class="pa-2" xs6 sm3>
                         <v-item v-slot:default="{ active, toggle }">
                             <v-card
-                            :color="active ? 'blue accent-1' : ''"
+                            :color="active ? 'light-blue lighten-1' : ''"
                             class="display-3 text-center rounded-lg pt-2"
                             height="208"
-                            width="176"
+                            min-width="100"
+                            max-width="300"
                             @click="toggle"
-                            
                             >
                                 <v-img  height="128" width="128" class="mx-auto rounded-lg" src="./../assets/avatar-boy.png"  />
                                 <v-card-title v-if="!active" class="justify-center font-weight-bold">{{cardsGender[0].title}}</v-card-title>
@@ -25,16 +29,17 @@
                         </v-item>
                     </v-flex>
 
-                    <v-flex class="pa-2" xs6>
+                    <v-flex class="pa-2" sm3>
                         <v-item v-slot:default="{ active, toggle }">
                             <v-card
-                            :color="active ? 'blue accent-1' : ''"
+                            :color="active ? 'light-blue lighten-1' : ''"
                             class="display-3 text-center rounded-lg pt-2"
                             height="208"
-                            width="176"
+                            min-width="100"
+                            max-width="300"
                             @click="toggle"
                             >
-                                <v-img height="128" width="128" class="mx-auto rounded-lg" src="./../assets/avatar-girl.png"  />
+                                <v-img height="128" width="128" class="mx-auto rounded-lg" src="./../assets/avatar-girl.png" />
                                 <v-card-title v-if="!active" class="justify-center font-weight-bold">{{cardsGender[1].title}}</v-card-title>
                                 <v-card-title v-if="active" class="white--text justify-center font-weight-bold">{{cardsGender[1].title}}</v-card-title>
                             </v-card>
@@ -83,12 +88,20 @@
 export default {
     // components: {CardsGender},
     data: () => ({
-        cardsGender: [{key: 1, title: 'Homem', image: `avatarboy.jpg`, src: "./../assets/logo.png"},
-        {key: 2, title: 'Mulher', image: `avatarboy.jpg`, src: "./../assets/logo.png"}],
+        cardsGender: [{key: 1, title: 'Homem', image: `avatar-boy.png`, src: "./../assets/avatar-boy.png"},
+        {key: 2, title: 'Mulher', image: `avatar-boy.png`, src: "./../assets/avatar-boy.png"}],
         max: 3,
+        cardOption: null,
         mandatory: false,
+        home:'/home',
         quizScreen: '/quizScreen'
-    })
+    }),
+
+    methods: {
+        cardOption(){
+
+        }
+    }
 }
 </script>
 
@@ -96,7 +109,6 @@ export default {
 .border{
     border: none;
 }
-
 .active{
     border: 1px solid rgb(241, 215, 215);
 }
