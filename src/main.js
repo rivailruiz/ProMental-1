@@ -12,7 +12,7 @@ const router = new VueRouter({
 			path: '/home',
 			name: 'Home',
 			component: () => 
-					import(/*webpackChunkName: home*/ './screens/Home')
+					import(/* webpackChunkName: home */ './screens/Home')
 		},
 		{
 			path: '/',
@@ -22,13 +22,13 @@ const router = new VueRouter({
 			path: '/formScreenData',
 			name: 'FormScreenData',
 			component: () => 
-					import(/*webpackChunkName: formScreenData*/ './screens/FormScreenData')
+					import(/* webpackChunkName: formScreenData */ './screens/FormScreenData')
 		},
 		{
 			path: '/quizScreen',
 			name: 'QuizScreen',
 			component: () => 
-					import(/*webpackChunkName: quizScreen*/ './screens/QuizScreen')
+					import(/* webpackChunkName: quizScreen */ './screens/QuizScreen')
 		}
 	]
 })

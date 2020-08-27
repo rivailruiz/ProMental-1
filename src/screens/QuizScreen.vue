@@ -17,8 +17,17 @@
                                             blue ligthteen-4 
                                             text-width-subtitle-2 white--text text-left 
                                             col-md-8 col-8" > 
-                                <p v-if="dataBaseQuestions.ask[dataBaseQuestion.askIndexBase] !== lastQuestion && score < cutScore" class="mx-auto my-auto">{{dataBaseQuestions.ask[dataBaseQuestion.askIndexBase]}}</p>
-                                <p  v-if="(dataBaseQuestions.ask[dataBaseQuestion.askIndexBase] === lastQuestion || score >= cutScore) && dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion" class="mx-auto my-auto">{{dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4]}}</p>
+                                <p v-if="dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && 
+                                         user.score < cutScore" 
+                                         class="mx-auto my-auto">{{dataBaseQuestions.ask[dataBaseQuestions.askIndexBase]}}</p>
+                                
+                                <p  v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion || user.score >= cutScore) && 
+                                           dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion" 
+                                           class="mx-auto my-auto">{{dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4]}}</p>
+                                
+                                <p v-if=" dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && user.isWorking === 'sim' && 
+                                          dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion" 
+                                          class="mx-auto my-auto">{{dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork]}}</p>
                             </v-col>
                         </v-row>
                 </v-col>
@@ -34,7 +43,7 @@
 
 
         <v-container class="px-6 align-center" fluid wrap>
-            <v-row  v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && score < cutScore)"  
+            <v-row  v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && user.score < cutScore)"  
                     class="border-chat justify-space-around py-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestions.answare">
                     <v-col class="border4 col-4 col-md-5"  cols="4" :key="index">
@@ -45,7 +54,8 @@
                 </template>
             </v-row>
 
-            <v-row v-if="(((dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion) || score >= cutScore) && dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion)" 
+            <v-row v-if="(((dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion) || user.score >= cutScore) && 
+                            dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion)" 
                         class="border3 justify-space-around pa-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestionsGroup4.answare">
                     <v-col class="border4"  cols="4" :key="index">
@@ -54,13 +64,19 @@
                         </v-btn>
                     </v-col>
                 </template>
-            </v-row> 
+            </v-row>
             
-            <!-- <v-row class="border3 justify-end mt-0" > 
-                <v-col class="border4 " cols="10"> 
-                        asdfg
-                </v-col>
-            </v-row> -->
+            <v-row v-if="( dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && user.isWorking === 'sim' && 
+                            dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion)" 
+                        class="border3 justify-space-around pa-2" no-gutters > 
+                <template v-for="(answare,index) in dataBaseQuestionsWork.answare">
+                    <v-col class="border4 col-12 col-md-5 mt-2"  :key="index">
+                        <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsWork.id)"> 
+                                {{answare}}
+                        </v-btn>
+                    </v-col>
+                </template>
+            </v-row>             
         </v-container>
 
     </v-container>
@@ -74,9 +90,10 @@ import ToolBar from './../components/ToolBar.vue'
 export default {
     components: {ToolBar},
     data: () => ({
-        user: { age: this.$route.params.age,
-                gender: this.$route.params.gender,
-                isWorking: this.$route.params.isWorking      
+        user: { age: null,
+                gender: null,
+                isWorking: null ,
+                score: 0,     
         },
 
         dataBaseQuestions:{ id:'base', 
@@ -96,7 +113,7 @@ export default {
                                 'Tem tido a ideia de acabar com a vida ', 'Sente-se uma pessoa inútil, sem préstimo' ,'fim']},
         dataBaseQuestionsWork:{ id:'work',
                                 askIndexWork:0, 
-                                answare: ['sim', 'nao', 'teste'], 
+                                answare: ['Nunca', 'Poucas vezes', 'Poucas vezes ao mês', '1 x por semana', 'Poucas vezes por semana', 'Sempre'], 
                                 ask: ['Sinto que meu trabalho está me desgastando.', 'Quando termino minha jornada de trabalho sinto-me esgotado', 
                                 'Quando me levanto pela manhã e me deparo com outra jornada de trabalho, já me sinto esgotado', 'Sinto que estou trabalhando demais.',
                                 'Sinto-me frustrado(a) com meu trabalho.', 'Sinto-me como se estivesse no limite de minhas possibilidades.', 
@@ -111,15 +128,11 @@ export default {
                                 'Parece-me que os beneficiados com meu trabalho culpam-me por alguns de seus problemas.', 'fim']
         },
         progress: 0,
-        score: 0,
         lastQuestion: 'fim',
         cutScore: 7,
+        faintScore: 0,
 
-        //imported data
-        age: null,
-        isWorking: null,
-        gender: null,
-
+        addProgress: null,
     }),
 
     methods: {
@@ -131,25 +144,41 @@ export default {
                 console.log(this.dataBaseQuestionsGroup4.classifcationG4);
             }
             if(answare === 'sim'){
-                this.score++;
-                console.log(this.score);
+                this.user.score++;
+                console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes'){
-                this.score += 1;
-                console.log(this.score);
+                this.user.score += 1;
+                console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes ao mês'){
-                this.score += 2;
-                console.log(this.score);
+                this.user.score += 2;
+                console.log('User Score:', this.user.score);
             }else if(answare === '1 x por semana'){
-                this.score += 3;
-                console.log(this.score);
+                this.user.score += 3;
+                console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes por semana'){
-                this.score += 4;
-                console.log(this.score);
+                this.user.score += 4;
+                console.log('User Score:', this.user.score);
             }else if(answare === 'Sempre'){
-                this.score += 5;
-                console.log(this.score);
+                this.user.score += 5;
+                console.log('User Score:', this.user.score);
             }
+
+            this.faintScore++;
+
+            console.log('User Score:', this.user.score, 'Cut Score:', this.cutScore, 'FaintScore', this.faintScore);
+            console.log('Antes:', 'Progress:', this.progress, 'Cut Score:', this.addProgress);
             
+            if(this.faintScore === this.cutScore){
+                if(this.user.isWorking == 'sim'){
+                    this.progress = 100 - (22*this.addProgress);
+                }else if(this.user.isWorking == 'nao'){
+                    this.progress = 100 - (4*this.addProgress);
+                }
+            }else if(this.faintScore !== this.cutScore){
+                this.progress += this.addProgress;
+            }
+
+            console.log('Depois:', 'Progress:', this.progress, 'Cut Score:', this.addProgress)
             switch (id){
                 case 'base':
                     this.dataBaseQuestions.askIndexBase++;
@@ -161,10 +190,9 @@ export default {
                     this.dataBaseQuestionsWork.askIndexWork++;
                     break;
                 default:
-                    console.log('id não encontrado')
-            }
+                    console.log('id não encontrado');
+            }            
             
-            this.progress += 5;
         },
         limparlista(){
             this.perguntas.pop();
@@ -179,9 +207,28 @@ export default {
         // },
     },
     created(){
-        this.user.age = this.$route.params.age;
-        this.user.gender = this.$route.params.gender;
-        this.user.isWorking = this.$route.params.isWorking;
+        this.user.age = this.$route.params.ageP;
+        this.user.gender = this.$route.params.genderP;
+        this.user.isWorking = this.$route.params.isWorkingP;
+
+        console.log(this.user);
+
+        if(this.$route.params.genderP === 'male'){
+            this.cutScore = 6;
+        
+        }else if(this.$route.params.genderP === 'female'){
+            console.log('cutScore: ', this.cutScore);
+            this.cutScore = 7;
+            console.log('cutScore:', this.cutScore);
+        }
+
+        if(this.$route.params.isWorkingP == 'sim'){
+            this.addProgress = 100/42;
+            console.log('Add Progress: ', this.addProgress);
+        }else if(this.$route.params.isWorkingP == 'nao'){
+            this.addProgress = 100/20;
+            console.log('Add Progress:', this.addProgress);
+        }
     }
 }
 </script>
