@@ -1,5 +1,5 @@
 <template>
-  <p class="grey lighten-3 d-line rounded-xl py-2 px-4">{{ title }}</p>
+  <p class="blue lighten-2 rounded-lg px-4 py-4 ">{{ title }}</p>
 </template>
 
 <script>

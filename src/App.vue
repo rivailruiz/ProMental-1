@@ -1,9 +1,14 @@
 <template>
     <!-- App.vue -->
     <v-app>
-        <!-- <v-navigation-drawer app>
-        </v-navigation-drawer> -->
-
+        <!-- <v-navigation-drawer app> -->
+        <!-- <v-app-bar class="" color="white" app>
+        </v-app-bar > -->
+        
+        <!-- </v-navigation-drawer> -->
+            <!-- <v-app-bar class="mx-0" app> -->
+        <!-- </v-app-bar > -->
+        
         <!-- <v-app-bar app>
         <v-icon> mdi-menu</v-icon>
         <h2 class="mx-2 " >ProMental </h2>
@@ -23,15 +28,27 @@
 <script>
 // import BottomMenu from "./../components/BottomMenu.vue";
 // import ToolBar from "./../components/ToolBar.vue";
+// //  import ProgressBar from "./../components/ProgressBar.vue";
 export default {
   name: "App",
-  // components: { ToolBar },
+//   components: { ProgressBar },
 
-    data() {
-    return {
-      activeBtn: 1,
-    };
-  },
+    data: () => ({
+      absolute: false,
+      active: true,
+      opacity: 0.3,
+      bottom: false,
+      buffer: 100,
+      fixed: false,
+      height: 24,
+      indeterminate: false,
+      query: false,
+      rounded: true,
+      stream: false,
+      striped: false,
+      top: false,
+      value: 25,
+  }),
 };
 </script>
 

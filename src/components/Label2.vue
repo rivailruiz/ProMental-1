@@ -1,5 +1,5 @@
 <template>
-  <span class="py-2 px-4">{{title}}</span>
+  <span class="py-2 px-4 grey">{{title}}</span>
 
 </template>
 

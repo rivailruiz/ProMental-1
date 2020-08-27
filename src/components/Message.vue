@@ -1,9 +1,9 @@
 <template>
   <div class="message">
-    <Avatar class />
-    <v-content class="d-inline">
+    <Avatar />
+    <div clas="d-flex inline-flex" style="border: 1px solid red">
       <Title :title=title></Title>
-    </v-content>
+    </div>  
   </div>
 </template>
 

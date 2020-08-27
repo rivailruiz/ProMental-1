@@ -2,16 +2,16 @@
   <!-- <v-main class="border" style="background-color:yellow"> -->
     <v-layout row wrap justify-center align-center light-blue lighten-1 class="ma-auto white--text flex-row-reverse" style="height: 100%" >
         
-        <v-flex class="border mt-4" xs12 sm4 max-width="240">
-            <v-img contain height="360px" class="" src="./../assets/head.png" />
+        <v-flex class="border mb-0" xs8 sm4 >
+            <v-img contain min-height="240px" max-height="360px" class="" src="./../assets/head.svg" />
         </v-flex>
         
-        <v-flex class="mx-4" xs12 sm12 md6 flex-sm-shrink-1> 
-            <h2 class="border mt-4" style="text-align:center">Bem vindo ao ProMental</h2>
-            <p class="border mt-6" style="text-align:center">{{StartText}}</p>
+        <v-flex class="mx-auto mx-4" xs12 sm12 md6> 
+            <p class="border mb-md-10 text-h5 text-sm-h3 text-md-h3 font-weight-bold" style="text-align:center">Bem vindo ao ProMental</p>
+            <p class="border text-subtitle-1 text-sm-h5 font-weight-regular" style="text-align:center">{{startText}} <br> {{startText2}}</p>
         </v-flex>
 
-        <v-flex class="border pa-0 mt-5 mx-4" xs12 sm12 md6>
+        <v-flex class="border pa-0 mx-4" xs12 sm12 md6>
                 <v-btn 
                     block
                     dark 
@@ -19,7 +19,6 @@
                     outlined 
                     rounded 
                     class="button"
-                    max-width="360"
                     router :to="startFormPage" >
                      Clique aqui para começar
                 </v-btn>
@@ -45,7 +44,8 @@ export default {
     ],
 
     startFormPage: '/formScreenData',
-    StartText: `Cansaço. Irritabilidade. Insonia. Esses podem ser sintomas de stress elevado. Visando o seu bem estar, nós dispomos de um questionario de saúde mental, que tal começarmos, não tomará muito tempo `,
+    startText: "Cansaço. Irritabilidade. Insonia. Esses podem ser sintomas de stress elevado.",
+    startText2: "Visando o seu bem estar, nós preparamos um questionario de saúde mental, que tal começarmos, não tomará muito tempo ",
   }),
 
   methods: {},

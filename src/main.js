@@ -1,19 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import Home from './screens/Home'
-import FormScreenData from './screens/FormScreenData'
-import QuizScreen from './screens/QuizScreen'
 import vuetify from './plugins/vuetify';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
+	mode: "history",
 	routes: [
 		{
 			path: '/home',
 			name: 'Home',
-			component: Home,
+			component: () => 
+					import(/*webpackChunkName: home*/ './screens/Home')
 		},
 		{
 			path: '/',
@@ -22,12 +21,14 @@ const router = new VueRouter({
 		{
 			path: '/formScreenData',
 			name: 'FormScreenData',
-			component: FormScreenData
+			component: () => 
+					import(/*webpackChunkName: formScreenData*/ './screens/FormScreenData')
 		},
 		{
 			path: '/quizScreen',
 			name: 'QuizScreen',
-			component: QuizScreen
+			component: () => 
+					import(/*webpackChunkName: quizScreen*/ './screens/QuizScreen')
 		}
 	]
 })

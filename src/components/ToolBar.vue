@@ -1,20 +1,20 @@
 <template>
-  <nav >
-    <v-toolbar  color="" short dense>
-      <v-btn icon>
+    <v-app-bar  color="" height="56px" app>
+      <v-btn icon router :to='backTo'>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-
-      <ProgressBar></ProgressBar>
-
+      
       <v-spacer></v-spacer>
-    </v-toolbar>
-  </nav>
+
+      <ProgressBar :progressValue="progressVal"></ProgressBar>
+
+    </v-app-bar>
 </template>
 
 <script>
 import ProgressBar from "./../components/ProgressBar.vue";
 export default {
+  props: ['progressVal', 'backTo'],
   components: { ProgressBar },
 };
 </script>
