@@ -56,7 +56,7 @@
 
             <v-row v-if="(((dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion) || user.score >= cutScore) && 
                             dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion)" 
-                        class="border3 justify-space-around pa-2" no-gutters > 
+                        class="border-chat justify-space-around pa-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestionsGroup4.answare">
                     <v-col class="border4"  cols="4" :key="index">
                         <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsGroup4.id)"> 
@@ -68,7 +68,7 @@
             
             <v-row v-if="( dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && user.isWorking === 'sim' && 
                             dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion)" 
-                        class="border3 justify-space-around pa-2" no-gutters > 
+                        class="border-chat justify-space-around pa-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestionsWork.answare">
                     <v-col class="border4 col-12 col-md-5 mt-2"  :key="index">
                         <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsWork.id)"> 
@@ -108,7 +108,7 @@ export default {
         dataBaseQuestionsGroup4:{ id:'g4',
                                 askIndexG4:0,
                                 classifcationG4: false, 
-                                answare: ['sim', 'nao', 'teste'],
+                                answare: ['sim', 'nao'],
                                 ask: ['É incapaz de desempenhar um papel útil em sua vida ', 'Tem perdido o interesse pelas coisas ', 
                                 'Tem tido a ideia de acabar com a vida ', 'Sente-se uma pessoa inútil, sem préstimo' ,'fim']},
         dataBaseQuestionsWork:{ id:'work',
@@ -137,6 +137,11 @@ export default {
 
     methods: {
         answareQuestion(answare, id){
+
+            if(this.faintScore === this.cutScore && answare === 'nao'){
+                this.faintScore += 1;
+            }
+
             console.log(answare, id);
             if(id === 'g4' && answare == 'sim'){
                 console.log(this.dataBaseQuestionsGroup4.classifcationG4);
@@ -145,32 +150,38 @@ export default {
             }
             if(answare === 'sim'){
                 this.user.score++;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes'){
                 this.user.score += 1;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes ao mês'){
                 this.user.score += 2;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }else if(answare === '1 x por semana'){
                 this.user.score += 3;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }else if(answare === 'Poucas vezes por semana'){
                 this.user.score += 4;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }else if(answare === 'Sempre'){
                 this.user.score += 5;
+                this.faintScore++;
                 console.log('User Score:', this.user.score);
             }
 
-            this.faintScore++;
+
 
             console.log('User Score:', this.user.score, 'Cut Score:', this.cutScore, 'FaintScore', this.faintScore);
             console.log('Antes:', 'Progress:', this.progress, 'Cut Score:', this.addProgress);
             
             if(this.faintScore === this.cutScore){
                 if(this.user.isWorking == 'sim'){
-                    this.progress = 100 - (22*this.addProgress);
+                    this.progress = 100 - (26*this.addProgress);
                 }else if(this.user.isWorking == 'nao'){
                     this.progress = 100 - (4*this.addProgress);
                 }
@@ -191,7 +202,8 @@ export default {
                     break;
                 default:
                     console.log('id não encontrado');
-            }            
+            }
+            
             
         },
         limparlista(){
