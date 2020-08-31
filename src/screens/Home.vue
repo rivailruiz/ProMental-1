@@ -1,14 +1,13 @@
 <template>
   <!-- <v-main class="border" style="background-color:yellow"> -->
-    <v-layout row wrap justify-center align-center light-blue lighten-1 class="ma-auto white--text flex-row-reverse" style="height: 100%" >
-        
+    <v-layout row wrap justify-center align-center light-blue lighten-1 class="ma-auto white--text flex-row-reverse" style="height: 100%" >  
         <v-flex class="border mb-0" xs8 sm4 >
             <v-img contain min-height="240px" max-height="360px" class="" src="./../assets/head.svg" />
         </v-flex>
         
         <v-flex class="mx-auto mx-4" xs12 sm12 md6> 
             <p class="border mb-md-10 text-h5 text-sm-h3 text-md-h3 font-weight-bold" style="text-align:center">Bem vindo ao ProMental</p>
-            <p class="border text-subtitle-1 text-sm-h5 font-weight-regular" style="text-align:center">{{startText}} <br> {{startText2}}</p>
+            <p class="border mx-xs-2 text-subtitle-1 text-sm-h5 font-weight-regular" style="text-align:center">{{startText}} <br> {{startText2}}</p>
         </v-flex>
 
         <v-flex class="border pa-0 mx-4" xs12 sm12 md6>

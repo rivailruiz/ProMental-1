@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ['progressValue'],
+  props: ['progressValue', 'active'],
   data: () => ({
       absolute: false,
       active: true,

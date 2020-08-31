@@ -1,5 +1,6 @@
 <template>
     <v-container class="active2 pa-0 align-start" fluid fill-height>
+        <ToolBar :active='false' :backTo='homeRouter'/>
         <v-container fluid class="active2">
             <v-row class="border mt-4">
                 <v-col class="active2 pa-0" cols="12">
@@ -20,7 +21,7 @@
             </v-row>
 
             <v-row class="active2 mt-2 justify-end"> <!-- user answare -->
-                <v-col :class="cardSelection ? 'active2 rounded-lg pink lighten-3 white--text col-6 col-md-3 mr-md-4' : 'active2 rounded-lg light-blue lighten-3 white--text col-6 col-md-3 mr-md-4'"> 
+                <v-col class="active2 rounded-lg light-blue lighten-3 white--text col-6 col-md-3 mr-md-4"> 
                     <p class=" my-0  mr-2 text-right">{{userAnsware[index]}}</p>
                 </v-col>
             </v-row>
@@ -68,14 +69,14 @@
                     <v-radio-group v-else-if="steps === 'genderOk'"
                      v-model="radio"
                      row required>
-                        <v-radio :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2' " label="Trabalhando" value="sim" class="mx-auto"></v-radio>
-                        <v-radio :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2' " label="Não Trabalhando" value="nao" class=" mx-auto"></v-radio>
+                        <v-radio color="light-blue lighten-2" label="Trabalhando" value="sim" class="mx-auto"></v-radio>
+                        <v-radio color="light-blue lighten-2" label="Não Trabalhando" value="nao" class=" mx-auto"></v-radio>
                     </v-radio-group>
 
                     <v-form ref="ageForm" v-else-if="steps === 'workOk'" >
                         <v-text-field
                         outlined
-                        :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2' "
+                        color="light-blue lighten-2"
                         type="number"
                         v-model="ageField"
                         :counter="maxTextAgeInput"
@@ -89,16 +90,16 @@
 
         </v-container>
         
-        <v-container class=""> 
+        <v-container class="border-image"> 
             <v-btn v-if="cardSelection !== null && steps === null" block 
-            :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2' " 
+            color="light-blue lighten-2" 
             dark x-large rounded
             @click="confirmar('genderOk')"> 
                 confirmar
             </v-btn>
 
         <v-btn v-else-if="radio !== null && steps === 'genderOk'" 
-            :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2'"
+            color="light-blue lighten-2"
             block 
             dark x-large rounded
             @click="confirmar('workOk')"> 
@@ -106,7 +107,7 @@
             </v-btn>
 
         <v-btn v-else-if="steps === 'workOk' && ageField !== ''"
-            :color="cardSelection ? 'pink lighten-2': 'light-blue lighten-2'" 
+            color="light-blue lighten-2" 
             block 
             dark x-large rounded
             @click="confirmar('ageOk')"> 
@@ -119,7 +120,9 @@
 <script>
 // v-for="cardsGender in cardsGender" :key="cardsGender.title"
 // import CardsGender from './../components/CardsGender'
+import ToolBar from './../components/ToolBar'
 export default {
+    components: {ToolBar},
     data: () => {
         return {
         cardSelection: null,
@@ -138,7 +141,9 @@ export default {
                 ageRules => ageRules !== '' || 'Campo Invalido',
                 ageRules => ageRules < 120 || 'Acho dificil você estar vivo',
                 // ageRules => ageRules > 15 || 'Você não deveria estar respondendo este formulário'
-        ],}
+        ],
+        homeRouter: '/home'
+        }
     },
     methods: {
         confirmar(step){
@@ -170,6 +175,7 @@ export default {
             }
 
         }
+
     }
 };
 </script>
@@ -184,10 +190,10 @@ export default {
 }
 .active {
   border: 1px solid rgb(241, 215, 215);
-}
+}*/
 .active2 {
   border: 1px solid black;
-} */
+} 
 
 .message{
     display: flex;
