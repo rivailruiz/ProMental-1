@@ -1,18 +1,20 @@
 <template> 
     <v-container class="border align-content-space-between pa-0"  fill-height fluid >
-        <ToolBar backTo="/home" :progressVal="progress"/>
+        <ToolBar backTo="/home" :progressVal="progress" :icon='arrowLeft' />
         <v-container class="border" fluid no-gutters>
             
             <v-row class="border mt-4" > 
                 <v-col cols="12 pa-0 "> 
                         <v-row class="border mx-md-4 justify-left" no-gutters > 
-                            <v-col class=" border2 message col-3 col-md-1 col-sm-3 ">
+                            <!-- <v-col class=" border2 message col-3 col-md-1 col-sm-2 ">
                                     <v-avatar class="border2 mx-auto"  size="64">
                                         <v-img class="border-image " src="./../assets/avatarboy.jpg" alt="logo" />
                                     </v-avatar>
-                            </v-col>
+                            </v-col> -->
+                            <Avatar />
+                            <Label2 />
 
-                            <v-col class="  pa-2
+                            <!-- <v-col class="  pa-2
                                             border3 rounded-lg 
                                             blue ligthteen-4 
                                             text-width-subtitle-2 white--text text-left 
@@ -28,7 +30,13 @@
                                 <p v-if=" dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && user.isWorking === 'sim' && 
                                           dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion" 
                                           class="mx-auto my-auto">{{dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork]}}</p>
-                            </v-col>
+                                
+                                <p v-if="dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] === lastQuestion && 
+                                user.isWorking === 'sim'"> {{scoreAnalysis()}}</p>
+
+                                <p v-if="dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion
+                                && user.isWorking === 'nao'"> {{scoreAnalysis()}}</p>
+                            </v-col> -->
                         </v-row>
                 </v-col>
             </v-row>
@@ -46,7 +54,7 @@
             <v-row  v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && user.score < cutScore)"  
                     class="border-chat justify-space-around py-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestions.answare">
-                    <v-col class="border4 col-4 col-md-5"  cols="4" :key="index">
+                    <v-col class="border4 col-4 col-md-3"  cols="4" :key="index">
                         <v-btn block max-width="100%" class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestions.id )"> 
                                 {{answare}}
                         </v-btn>
@@ -58,7 +66,7 @@
                             dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion)" 
                         class="border-chat justify-space-around pa-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestionsGroup4.answare">
-                    <v-col class="border4"  cols="4" :key="index">
+                    <v-col class="border4 col-4 col-md-3" :key="index">
                         <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsGroup4.id)"> 
                                 {{answare}}
                         </v-btn>
@@ -70,7 +78,7 @@
                             dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion)" 
                         class="border-chat justify-space-around pa-2" no-gutters > 
                 <template v-for="(answare,index) in dataBaseQuestionsWork.answare">
-                    <v-col class="border4 col-12 col-md-5 mt-2"  :key="index">
+                    <v-col class="border4 col-12 col-md-5 col-sm-5 mt-2"  :key="index">
                         <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsWork.id)"> 
                                 {{answare}}
                         </v-btn>
@@ -84,11 +92,12 @@
 
 <script>
 // import Message from './../components/Message.vue'
-// import Title from './../components/Title.vue'
+import Avatar from './../components/Avatar.vue'
+import Label2 from './../components/Label2.vue'
 import ToolBar from './../components/ToolBar.vue'
 
 export default {
-    components: {ToolBar},
+    components: {ToolBar, Label2, Avatar}, 
     data: () => ({
         user: { age: null,
                 gender: null,
@@ -133,6 +142,7 @@ export default {
         faintScore: 0,
 
         addProgress: null,
+        arrowLeft: 'mdi-arrow-left',
     }),
 
     methods: {
@@ -179,7 +189,7 @@ export default {
             console.log('User Score:', this.user.score, 'Cut Score:', this.cutScore, 'FaintScore', this.faintScore);
             console.log('Antes:', 'Progress:', this.progress, 'Cut Score:', this.addProgress);
             
-            if(this.faintScore === this.cutScore){
+            if((this.faintScore === this.cutScore) && id == 'base'){
                 if(this.user.isWorking == 'sim'){
                     this.progress = 100 - (26*this.addProgress);
                 }else if(this.user.isWorking == 'nao'){
@@ -204,20 +214,21 @@ export default {
                     console.log('id não encontrado');
             }
             
-            
-        },
-        limparlista(){
-            this.perguntas.pop();
-        },
-        // adicionaRespostaEPergunta(resp){
-        //     console.log(resp);
-        //     this.perguntas.push(resp);
-        //     console.log(this.perguntas)
-        //     this.perguntas.push(this.quiz[this.askIndex]);
-        //     console.log(this.perguntas);
-        //     this.askIndex++;
-        // },
+        },//answareQuestion function end
+
+        scoreAnalysis(){
+            if(this.user.score >= 7 && this.user.gender === 'female'){
+                return `Olha, você pode estar um pouco estrassada devido a sua rotina do seu dia, a dia. 
+                Deixo aqui algumas dicas de saude e unidades de atendimento que estarão prontas para te ajudar.`
+            }else if(this.user.score >= 6 & this.user.gender === 'male'){
+                return `Olha, você pode estar um pouco estrassado devido a sua rotina do seu dia a dia. 
+                Deixo aqui algumas dicas de saude e unidades de atendimento que estarão prontas para te ajudar.`
+            }else{
+                return `Tudo esta perfeitamente bem.`
+            }
+        }
     },
+    
     created(){
         this.user.age = this.$route.params.ageP;
         this.user.gender = this.$route.params.genderP;
@@ -250,8 +261,8 @@ export default {
     /* border: 1px solid black; */
 }
 .border2{
-    /* border: 1px solid green; */
-    /* background-color: cyan; */
+    /* border: 1px solid green;
+    background-color: cyan; */
 }
 
 .border-chat{

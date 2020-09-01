@@ -1,6 +1,6 @@
 <template>
     <v-container class="active2 pa-0 align-start" fluid fill-height>
-        <ToolBar :active='false' :backTo='homeRouter'/>
+        <ToolBar :active='false' :backTo='homeRouter' icon='mdi-arrow-left'/>
         <v-container fluid class="active2">
             <v-row class="border mt-4">
                 <v-col class="active2 pa-0" cols="12">
@@ -11,7 +11,7 @@
                             </v-avatar>
                         </v-col>
                         <v-col class="pa-2 border3 rounded-lg 
-                                    light-blue lighten-3 
+                                    light-blue 
                                     text-width-subtitle-2 white--text text-left 
                                     col-md-8 col-8">
                             <p class="mx-auto my-auto">{{botQuestion[0]}}</p>
@@ -21,7 +21,7 @@
             </v-row>
 
             <v-row class="active2 mt-2 justify-end"> <!-- user answare -->
-                <v-col class="active2 rounded-lg light-blue lighten-3 white--text col-6 col-md-3 mr-md-4"> 
+                <v-col class="active2 rounded-lg light-blue white--text col-6 col-md-3 mr-md-4"> 
                     <p class=" my-0  mr-2 text-right">{{userAnsware[index]}}</p>
                 </v-col>
             </v-row>
@@ -69,14 +69,14 @@
                     <v-radio-group v-else-if="steps === 'genderOk'"
                      v-model="radio"
                      row required>
-                        <v-radio color="light-blue lighten-2" label="Trabalhando" value="sim" class="mx-auto"></v-radio>
-                        <v-radio color="light-blue lighten-2" label="Não Trabalhando" value="nao" class=" mx-auto"></v-radio>
+                        <v-radio color="light-blue" label="Trabalhando" value="sim" class="mx-auto"></v-radio>
+                        <v-radio color="light-blue" label="Não Trabalhando" value="nao" class=" mx-auto"></v-radio>
                     </v-radio-group>
 
                     <v-form ref="ageForm" v-else-if="steps === 'workOk'" >
                         <v-text-field
                         outlined
-                        color="light-blue lighten-2"
+                        color="light-blue"
                         type="number"
                         v-model="ageField"
                         :counter="maxTextAgeInput"
@@ -90,29 +90,29 @@
 
         </v-container>
         
-        <v-container class="border-image"> 
+        <v-container class=""> 
             <v-btn v-if="cardSelection !== null && steps === null" block 
-            color="light-blue lighten-2" 
-            dark x-large rounded
-            @click="confirmar('genderOk')"> 
-                confirmar
-            </v-btn>
+                color="light-blue" 
+                dark x-large rounded
+                @click="confirmar('genderOk')"> 
+                    confirmar
+                </v-btn>
 
-        <v-btn v-else-if="radio !== null && steps === 'genderOk'" 
-            color="light-blue lighten-2"
-            block 
-            dark x-large rounded
-            @click="confirmar('workOk')"> 
-                confirmar 
-            </v-btn>
+            <v-btn v-else-if="radio !== null && steps === 'genderOk'" 
+                color="light-blue"
+                block 
+                dark x-large rounded
+                @click="confirmar('workOk')"> 
+                    confirmar 
+                </v-btn>
 
-        <v-btn v-else-if="steps === 'workOk' && ageField !== ''"
-            color="light-blue lighten-2" 
-            block 
-            dark x-large rounded
-            @click="confirmar('ageOk')"> 
-                confirmar 
-            </v-btn>
+            <v-btn v-else-if="steps === 'workOk' && ageField !== ''"
+                color="light-blue" 
+                block 
+                dark x-large rounded
+                @click="confirmar('ageOk')"> 
+                    confirmar 
+                </v-btn>
         </v-container>
     </v-container>
 </template>
@@ -190,10 +190,10 @@ export default {
 }
 .active {
   border: 1px solid rgb(241, 215, 215);
-}*/
+}
 .active2 {
   border: 1px solid black;
-} 
+} */
 
 .message{
     display: flex;

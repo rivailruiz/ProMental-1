@@ -1,6 +1,7 @@
 <template>
   <!-- <v-main class="border" style="background-color:yellow"> -->
-    <v-layout row wrap justify-center align-center light-blue lighten-1 class="ma-auto white--text flex-row-reverse" style="height: 100%" >  
+    <v-layout row wrap justify-center align-center light-blue lighten-1 class="ma-auto white--text flex-row-reverse" style="height: 100%" >
+        <TollBar :active='false' :icon='menu' color='light-blue lighten-1' iconColor='white' />
         <v-flex class="border mb-0" xs8 sm4 >
             <v-img contain min-height="240px" max-height="360px" class="" src="./../assets/head.svg" />
         </v-flex>
@@ -32,11 +33,13 @@
 <script>
 
 // import BottomMenu from './../components/BottomMenu.vue'
+import TollBar from './../components/ToolBar'
 
 export default {
-//   components: { },
+   components: {TollBar },
 
   data: () => ({
+	menu: 'mdi-menu',
     startLabel: [
       { label: "Olá bem vindo ao ProMental" },
       { label: "Vamos começar o formulário?" },

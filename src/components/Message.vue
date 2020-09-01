@@ -1,18 +1,16 @@
 <template>
-  <div class="message">
-    <Avatar />
-    <div clas="d-flex inline-flex" style="border: 1px solid red">
-      <Title :title=title></Title>
-    </div>  
-  </div>
+	<v-row class="border mx-md-4 justify-left" no-gutters>
+		<Avatar />
+		<Label2 />
+	</v-row>
 </template>
 
 <script>
 import Avatar from "./../components/Avatar.vue";
-import Title from "./../components/Title.vue";
+import Label2 from "./../components/Label.vue";
 export default {
-    props: {title: String},
-    components:{Avatar, Title}
+  props: { title: String },
+  components: { Avatar, Title },
 };
 </script>
 <style scoped>

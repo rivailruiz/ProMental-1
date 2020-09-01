@@ -1,6 +1,6 @@
 <template>
     <v-progress-linear
-      :active="active"
+      :active="activeBar"
       :background-opacity="opacity"
       :bottom="bottom"
       :buffer-value="buffer"
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ['progressValue', 'active'],
+  props: ['progressValue', 'activeBar'],
   data: () => ({
       absolute: false,
       active: true,
