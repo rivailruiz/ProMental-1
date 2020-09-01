@@ -7,7 +7,7 @@
         </v-flex>
         
         <v-flex class="mx-auto mx-4" xs12 sm12 md6> 
-            <p class="border mb-md-10 text-h5 text-sm-h3 text-md-h3 font-weight-bold" style="text-align:center">Bem vindo ao ProMental</p>
+            <p class="border mb-md-10 text-h5 text-sm-h3 text-md-h3 font-weight-bold" style="text-align:center">{{headLine}}</p>
             <p class="border mx-xs-2 text-subtitle-1 text-sm-h5 font-weight-regular" style="text-align:center">{{startText}} <br> {{startText2}}</p>
         </v-flex>
 
@@ -48,6 +48,7 @@ export default {
     startFormPage: '/formScreenData',
     startText: "Cansaço. Irritabilidade. Insonia. Esses podem ser sintomas de stress elevado.",
     startText2: "Visando o seu bem estar, nós preparamos um questionario de saúde mental, que tal começarmos, não tomará muito tempo ",
+    headLine: "Bem Vindo ao Pro Mental"
   }),
 
   methods: {},

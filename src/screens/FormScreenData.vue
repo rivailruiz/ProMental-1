@@ -4,74 +4,33 @@
         <v-container fluid class="active2">
             <v-row class="border mt-4">
                 <v-col class="active2 pa-0" cols="12">
-                    <v-row class=" justify-left" no-gutters>
-                        <v-col class="border2 message col-3 col-md-1 col-sm-3">
-                            <v-avatar class=" mx-auto" size="64">
-                                <v-img class="border-image" src="./../assets/avatar-boy.png" alt="logo" />
-                            </v-avatar>
-                        </v-col>
-                        <v-col class="pa-2 border3 rounded-lg 
-                                    light-blue 
-                                    text-width-subtitle-2 white--text text-left 
-                                    col-md-8 col-8">
-                            <p class="mx-auto my-auto">{{botQuestion[0]}}</p>
-                        </v-col>
-                    </v-row>
+                    <Message :textIn='botQuestion[0]'/>
                 </v-col>
             </v-row>
 
-            <v-row class="active2 mt-2 justify-end"> <!-- user answare -->
-                <v-col class="active2 rounded-lg light-blue white--text col-6 col-md-3 mr-md-4"> 
-                    <p class=" my-0  mr-2 text-right">{{userAnsware[index]}}</p>
-                </v-col>
+            <v-row class="active2 mt-2 justify-end "> <!-- user answare -->
+                <TextAnsware :text="userAnsware[answareIndex]"/>
             </v-row>
 
-            <v-row class="active2 mt-2 ">
-                <v-col class="border2 " cols="12">
-                    
-                    <v-item-group v-if="steps === null" active-class="active justify-space-around" v-model="cardSelection" >  
-                        <v-row class="justify-space-around">  
-                            <v-col class="border col-6 col-md-3 "> 
-                                <v-item v-slot:default="{ active, toggle }">
-                                    <v-card
-                                    :color="active ? 'light-blue lighten-3' : ''"
-                                    class="display-3 text-center rounded-lg pt-2"
-                                    height="208"
-                                    min-width="100"
-                                    max-width="300"
-                                    @click="toggle">
-
-                                        <v-img  height="128" width="128" class="mx-auto rounded-lg" :src="require(`@/assets/avatar-boy.png`)"  />
-                                        <v-card-title v-if="!active" class="justify-center font-weight-bold">Homem</v-card-title>
-                                        <v-card-title v-else-if="active" class="white--text justify-center font-weight-bold">Homem</v-card-title>
-                                    </v-card>
-                                </v-item>
-                            </v-col>
-                            <v-col class="border col-6 col-md-3"> 
-                                <v-item v-slot:default="{ active, toggle }">
-                                    <v-card
-                                    :color="active ? 'pink lighten-3' : ''"
-                                    class="display-3 text-center rounded-lg pt-2"
-                                    height="208"
-                                    min-width="100"
-                                    max-width="300"
-                                    @click="toggle">
-
-                                        <v-img  height="128" width="128" class="mx-auto rounded-lg" :src="require(`@/assets/avatar-girl.png`)"  />
-                                        <v-card-title v-if="!active" class="justify-center font-weight-bold">Mulher</v-card-title>
-                                        <v-card-title v-if="active" class="white--text justify-center font-weight-bold">Mulher</v-card-title>
-                                    </v-card>
-                                </v-item>
-                            </v-col>
-                        </v-row>
-                    </v-item-group>
+            <v-row class="active2 mt-2 "> <!-- form options -->
+                <v-col class="border2" cols="12">
+                    <v-item-group v-if="steps === null" 
+                    active-class="active justify-space-around" v-model="cardSelection" >  
+                        <v-row class="justify-space-around">
+                            <CardItemGender v-for="(cardInfo, index) in cardGender" :key='index'
+                            :colorCard='cardInfo.cardColor'
+                            :gender="cardInfo.label"
+                            :imageSource="cardInfo.imageSource"/>
+                            </v-row>
+                        </v-item-group>
                     
                     <v-radio-group v-else-if="steps === 'genderOk'"
                      v-model="radio"
                      row required>
-                        <v-radio color="light-blue" label="Trabalhando" value="sim" class="mx-auto"></v-radio>
-                        <v-radio color="light-blue" label="Não Trabalhando" value="nao" class=" mx-auto"></v-radio>
-                    </v-radio-group>
+                        <template  v-for="(option, index) in workOptions" >
+                            <v-radio :key='index' color="primary" :label="option.label" :value="option.value" class="mx-auto"></v-radio>
+                        </template>
+                        </v-radio-group>
 
                     <v-form ref="ageForm" v-else-if="steps === 'workOk'" >
                         <v-text-field
@@ -84,7 +43,7 @@
                         label="Digte sua idade"
                         required>
                         </v-text-field>
-                    </v-form>
+                        </v-form>
                 </v-col>
             </v-row>
 
@@ -119,30 +78,48 @@
 
 <script>
 // v-for="cardsGender in cardsGender" :key="cardsGender.title"
-// import CardsGender from './../components/CardsGender'
+import CardItemGender from './../components/CardItemGender.vue'
+import Message from './../components/Message.vue'
+import TextAnsware from './../components/TextAnsware.vue'
 import ToolBar from './../components/ToolBar'
 export default {
-    components: {ToolBar},
+    components: {ToolBar, Message, TextAnsware, CardItemGender},
     data: () => {
         return {
         cardSelection: null,
         steps: null,
-        gender: null,
-        age: null,
-        isWorking: null,
+        user: {
+                gender: null,
+                age: null,
+                isWorking: null
+        },
+        
         ageField: '',
         maxTextAgeInput: 3,
+        
         radio: null,
-        index: 0,
+        answareIndex: 0,
+        
         botQuestion: ['Olá seja bem vindo ao questionário, antes de começarmos, que tal contar um pouco sobre você?'],
-        userAnsware: ['Eu sou', 'No momento estou', 'Eu tenho'],
+        userAnsware: ['Eu sou', 'No momento eu', 'Eu tenho'],
+        
         ageRule: [
                 ageRules => ageRules.length < 4 || 'Excedido quantidade de caracteres',
                 ageRules => ageRules !== '' || 'Campo Invalido',
                 ageRules => ageRules < 120 || 'Acho dificil você estar vivo',
                 // ageRules => ageRules > 15 || 'Você não deveria estar respondendo este formulário'
         ],
-        homeRouter: '/home'
+        homeRouter: '/home',
+
+        cardGender: [
+            {imageSource: 'avatar-boy.png', label: 'Homem', cardColor: 'light-blue lighten-3'}, 
+            {imageSource: 'avatar-girl.png', label: 'Mulher', cardColor: 'pink lighten-3'}
+        ],
+        workOptions: [
+            {label: 'Trabalho', value: true},
+            {label: 'Não Trabalho', value: false}
+        ]
+        
         }
     },
     methods: {
@@ -155,20 +132,19 @@ export default {
                 }else if(this.cardSelection == 1){
                     this.gender = 'female';
                 }
-                this.index ++;
+                this.answareIndex ++;
 
             }else if(step === 'workOk'){
                 this.steps = step;
                 console.log(this.radio);
                 this.isWorking = this.radio;
-                this.index++;  
+                this.answareIndex++;  
             
             }else if(step === 'ageOk'){
                 console.log('entrou')    
                 if(this.$refs.ageForm.validate()){
                     console.log(this.$refs.ageForm);
                     this.steps = step;
-                    this.validate = 1;
                     this.age = this.ageField;
                     this.$router.push({name:'QuizScreen', params:{genderP: this.gender, isWorkingP: this.radio , ageP: this.age }})
                 }
