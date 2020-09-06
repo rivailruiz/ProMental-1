@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar  :color="color" height="56px" app>
+    <v-app-bar  class="ma-0" :color="color" short app>
       <v-btn icon router :to='backTo'>
         <v-icon :color='iconColor'>{{icon}}</v-icon>
       </v-btn>

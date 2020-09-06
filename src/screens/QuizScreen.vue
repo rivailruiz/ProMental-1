@@ -1,6 +1,6 @@
 <template> 
-    <v-container class="border align-content-space-between pa-0"  fill-height fluid >
-        <tool-bar backTo="/home" :progressVal="progress" :icon='arrowLeft' />
+    <v-container class="border align-content-space-between "  fill-height fluid >
+        <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' />
         
         <v-container class="border" fluid no-gutters>    
             <v-row class="border mt-4"> 
@@ -9,25 +9,26 @@
                     <message v-if="dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && 
                             user.score < cutScore" 
                             :textIn="dataBaseQuestions.ask[dataBaseQuestions.askIndexBase]"/>
-
-                    <!--questions Group 4 --> 
+ 
+                    <!--questions Group 4 -->
                     <message v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion || user.score >= cutScore) && 
                             dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion"
                             :textIn="dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4]"/>
     
-                    <!--questions Work -->  
+                    <!--questions Work -->
                     <message v-if=" dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && 
                             user.isWorking === positive && 
                             dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion"  
                             :textIn="dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork]"/>
                     <!-- Final Message -->
-                    <message v-if=" dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion &&
-                            user.isWorking === negative ||
-                            dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] === lastQuestion &&
-                            user.isWorking === positive" 
+                    <message v-if=" (dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion &&
+                            user.isWorking === negative) ||
+                            (dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] === lastQuestion &&
+                            user.isWorking === positive)" 
                             :textIn="scoreAnalysis()"/>               
                     <!-- health tips -->
-                    <message v-if="healthTipsActive === true" :textIn="tipsFormat(healthTips)" />
+                    <message-list v-if="healthTipsActive" :list="healthTips" class="mt-2" />
+                    <!-- <message v-if="healthTipsActive"  :textIn="'Helo Helo'" :map='true' class="mt-2" /> -->
                 </v-col>
             </v-row>
         </v-container>
@@ -68,6 +69,14 @@
                         </v-btn>
                     </v-col>
                 </template>
+            </v-row>
+
+            <v-row v-if='healthTipsActive' class="border-chat justify-space-around pa-2" no-gutters > 
+                 <v-col class="border4 col-6 col-md-3 col-sm-3 mt-2" >
+                        <v-btn block class="wrap rounded-xl" color="primary" router to='home'> 
+                                Finalizar
+                        </v-btn>
+                    </v-col>
             </v-row>             
         </v-container>
 
@@ -76,12 +85,13 @@
 
 <script>
 import Message from './../components/Message.vue'
+import MessageList from './../components/MessageList.vue'
 // import Avatar from './../components/Avatar.vue'
 // import Label2 from './../components/Label2.vue'
 import ToolBar from './../components/ToolBar.vue'
 
 export default {
-    components: {ToolBar, Message}, 
+    components: {ToolBar, Message, MessageList}, 
     data: () => ({
         user: { age: null,
                 gender: null,
@@ -122,8 +132,8 @@ export default {
                                 'Parece-me que os beneficiados com meu trabalho culpam-me por alguns de seus problemas.', 'fim']
         },
 
-        healthTips:[`dica 1`, `dica 2`, `dica 3`,
-                    `dica 4`, `dica 5`],
+        healthTips:[`Durma bem`, `Coma bem`, `Não se irrite`,
+                    `Pratique esporte`],
 
         progress: 0,
         lastQuestion: 'fim',
@@ -184,7 +194,7 @@ export default {
             console.log('User Score:', this.user.score, 'Cut Score:', this.cutScore, 'FaintScore', this.faintScore);
             console.log('Antes:', 'Progress:', this.progress, 'Cut Score:', this.cutScore);
 
-            if((this.faintScore === this.cutScore) && id == 'base'){
+            if((this.faintScore === this.cutScore) && id === 'base'){
                 if(this.user.isWorking === this.positive){
                     this.progress = 100 - (26*this.addProgress);
                 }else if(this.user.isWorking === this.negative){
@@ -218,6 +228,7 @@ export default {
                 return `Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. 
                 Deixo aqui algumas dicas de saude e unidades de atendimento que estarão prontas para te ajudar.`;
             }else{
+                this.healthTipsActive = true;
                 return `Tudo esta perfeitamente bem.`;
             }
         },

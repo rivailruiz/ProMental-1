@@ -1,16 +1,17 @@
 <template>
 	<v-row class="border mx-md-4 justify-left" no-gutters>
-		<Avatar />
-		<TextQuestion :text="textIn"/>
+		<avatar source="avatar-boy.png" />
+		<text-question :text="textIn"/>
 	</v-row>
 </template>
 
 <script>
 import Avatar from "./../components/Avatar.vue";
 import TextQuestion from "./../components/TextQuestion.vue";
+
 export default {
-  props: { textIn: String },
-  components: { Avatar, TextQuestion },
+	props: ['textIn' , 'map'],
+	components: { Avatar, TextQuestion },
 };
 </script>
 <style scoped>

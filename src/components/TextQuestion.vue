@@ -13,13 +13,13 @@
 
 <script>
 export default {
-  props: ["text"],
+	props: ["text"],
 };
 </script>
 <style scoped>
 .border2 {
-  order: 1px solid black;
-  /* background-color: cyan; */
+	order: 1px solid black;
+	/* background-color: cyan; */
 }
 </style>
 

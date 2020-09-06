@@ -61,7 +61,7 @@ export default {
   
 }
 .background-main{
-  background-color: #ffff;
+  background-color: white;
 
 }
 </style>

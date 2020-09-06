@@ -1,5 +1,5 @@
 <template>
-    <v-col class="border col-6 col-md-3">
+    <v-col class="border col-6 col-sm-5 col-md-4 col-lg-3">
         <v-item v-slot:default="{ active, toggle }">
             <v-card
                 :color="active ? `${colorCard}` : ''"

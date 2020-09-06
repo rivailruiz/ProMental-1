@@ -1,79 +1,85 @@
 <template>
-    <v-container class="active2 pa-0 align-start" fluid fill-height>
-        <ToolBar :active='false' :backTo='homeRouter' icon='mdi-arrow-left'/>
+    
+    <v-container class="active2 align-content-space-between" fluid fill-height>
+        <tool-bar :active='false' color='white' :backTo='homeRouter' icon='mdi-arrow-left'/>
         <v-container fluid class="active2">
-            <v-row class="border mt-4">
+            <v-row class="border mt-2">
                 <v-col class="active2 pa-0" cols="12">
                     <Message :textIn='botQuestion[0]'/>
                 </v-col>
-            </v-row>
+                </v-row>
 
             <v-row class="active2 mt-2 justify-end "> <!-- user answare -->
                 <TextAnsware :text="userAnsware[answareIndex]"/>
-            </v-row>
+                </v-row>
 
             <v-row class="active2 mt-2 "> <!-- form options -->
                 <v-col class="border2" cols="12">
-                    <v-item-group v-if="steps === null" 
-                    active-class="active justify-space-around" v-model="cardSelection" >  
-                        <v-row class="justify-space-around">
-                            <CardItemGender v-for="(cardInfo, index) in cardGender" :key='index'
-                            :colorCard='cardInfo.cardColor'
-                            :gender="cardInfo.label"
-                            :imageSource="cardInfo.imageSource"/>
-                            </v-row>
-                        </v-item-group>
-                    
-                    <v-radio-group v-else-if="steps === 'genderOk'"
-                     v-model="radio"
-                     row required>
-                        <template  v-for="(option, index) in workOptions" >
-                            <v-radio :key='index' color="primary" :label="option.label" :value="option.value" class="mx-auto"></v-radio>
-                        </template>
-                        </v-radio-group>
+                        <v-item-group v-if="steps === null" 
+                        active-class="active justify-space-around" v-model="cardSelection" >  
+                            <v-row class="justify-space-around">
+                                <CardItemGender v-for="(cardInfo, index) in cardGender" :key='index'
+                                :colorCard='cardInfo.cardColor'
+                                :gender="cardInfo.label"
+                                :imageSource="cardInfo.imageSource"/>
+                                </v-row>
+                            </v-item-group>
+                        
+                        <v-radio-group v-else-if="steps === 'genderOk'"
+                        v-model="radio"
+                        row required>
+                            <template  v-for="(option, index) in workOptions" >
+                                <v-radio :key='index' color="primary" :label="option.label" :value="option.value" class="mx-auto"></v-radio>
+                            </template>
+                            </v-radio-group>
 
-                    <v-form ref="ageForm" v-else-if="steps === 'workOk'" >
-                        <v-text-field
-                        outlined
-                        color="light-blue"
-                        type="number"
-                        v-model="ageField"
-                        :counter="maxTextAgeInput"
-                        :rules="ageRule"
-                        label="Digte sua idade"
-                        required>
-                        </v-text-field>
-                        </v-form>
-                </v-col>
-            </v-row>
+                        <v-form ref="ageForm" v-else-if="steps === 'workOk'" >
+                            <v-text-field
+                            outlined
+                            color="light-blue"
+                            type="number"
+                            v-model="ageField"
+                            :counter="maxTextAgeInput"
+                            :rules="ageRule"
+                            label="Digte sua idade"
+                            required>
+                            </v-text-field>
+                            </v-form>
+                    </v-col>
+                </v-row>
 
         </v-container>
         
-        <v-container class=""> 
-            <v-btn v-if="cardSelection !== null && steps === null" block 
-                color="light-blue" 
-                dark x-large rounded
-                @click="confirmar('genderOk')"> 
-                    confirmar
-                </v-btn>
+        <v-container class="border">
+            <v-row class="justify-center border">
+                <v-col class="col-12 col-sm-8">  
+                    <v-btn v-if="cardSelection !== null && steps === null" block 
+                        color="light-blue" 
+                        dark large rounded
+                        @click="confirmar('genderOk')"> 
+                        confirmar
+                        </v-btn>
 
-            <v-btn v-else-if="radio !== null && steps === 'genderOk'" 
-                color="light-blue"
-                block 
-                dark x-large rounded
-                @click="confirmar('workOk')"> 
-                    confirmar 
-                </v-btn>
+                    <v-btn v-else-if="radio !== null && steps === 'genderOk'" 
+                        color="light-blue"
+                        block 
+                        dark large rounded
+                        @click="confirmar('workOk')"> 
+                            confirmar 
+                        </v-btn>
 
-            <v-btn v-else-if="steps === 'workOk' && ageField !== ''"
-                color="light-blue" 
-                block 
-                dark x-large rounded
-                @click="confirmar('ageOk')"> 
-                    confirmar 
-                </v-btn>
-        </v-container>
+                    <v-btn v-else-if="steps === 'workOk' && ageField !== ''"
+                        color="light-blue" 
+                        block 
+                        dark large rounded
+                        @click="confirmar('ageOk')"> 
+                            confirmar 
+                        </v-btn>
+                </v-col>
+            </v-row>
+            </v-container>
     </v-container>
+
 </template>
 
 <script>
@@ -159,8 +165,8 @@ export default {
 <style scoped>
 /* .border {
   border: 1px solid red;
-}
-.border2 {
+} */
+/* .border2 {
   border: 1px solid red;
   background-color: green;
 }
@@ -169,15 +175,7 @@ export default {
 }
 .active2 {
   border: 1px solid black;
-} */
+}  */
 
-.message{
-    display: flex;
-    align-items: center;
-    justify-items: center;
-}
-.border-image {
-  border: 1px solid black;
-}
 </style>
 
