@@ -1,143 +1,82 @@
 <template> 
-    <v-container class="border align-content-space-between "  fill-height fluid >
+    <v-container class=" align-content-space-between "  fill-height fluid >
         <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' />
-        
-        <v-container class="border" fluid no-gutters>    
-            <v-row class="border mt-4"> 
+        <v-container fluid no-gutters>    
+            <v-row> 
                 <v-col cols="12 pa-0 ">
-                    <!--base questions--> 
-                    <message v-if="dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && 
-                            user.score < cutScore" 
-                            :textIn="dataBaseQuestions.ask[dataBaseQuestions.askIndexBase]"/>
- 
-                    <!--questions Group 4 -->
-                    <message v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion || user.score >= cutScore) && 
-                            dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion"
-                            :textIn="dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4]"/>
-    
-                    <!--questions Work -->
-                    <message v-if=" dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && 
-                            user.isWorking === positive && 
-                            dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion"  
-                            :textIn="dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork]"/>
-                    <!-- Final Message -->
-                    <message v-if=" (dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion &&
-                            user.isWorking === negative) ||
-                            (dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] === lastQuestion &&
-                            user.isWorking === positive)" 
-                            :textIn="scoreAnalysis()"/>               
-                    <!-- health tips -->
-                    <message-list v-if="healthTipsActive" :list="healthTips" class="mt-2" />
-                    <!-- <message v-if="healthTipsActive"  :textIn="'Helo Helo'" :map='true' class="mt-2" /> -->
+                    <message  v-if="(questionText() !== lastQuestion)" :textIn="questionText()"/>
+                    
+                    <template v-if="(healthTipsActive)">
+                        <message :textIn="scoreAnalysis()"/>
+                        <message-list class="mt-2" :list="healthTips"/>
+                    </template>
                 </v-col>
             </v-row>
         </v-container>
 
 
-        <v-container class="px-6 align-center" fluid wrap>
-            <v-row v-if="(dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] !== lastQuestion && user.score < cutScore)"  
-                    class="border-chat justify-space-around py-2" no-gutters > 
-                <template v-for="(answare,index) in dataBaseQuestions.answare">
-                    <v-col class="border4 col-4 col-md-2" :key="index">
-                        <v-btn block max-width="100%" class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestions.id )"> 
-                                {{answare}}
+        <v-container class="" fluid wrap>
+            <v-row v-if="!healthTipsActive"  class="border-chat justify-space-around flex-row-reverse pa-2" no-gutters  > 
+                <template v-for="(answare,index) in questionary[indexQuestionary].answare">
+                    <v-col
+                        :class="questionary[indexQuestionary].id === 'work' ? 'col-12 col-md-4 col-sm-5 mx-1 my-1' :'col-4 col-md-2 mx-1'  " 
+                        :key="index">
+                        <v-btn
+                            block max-width="100%" 
+                            class="wrap rounded-xl" 
+                            color="primary" 
+                            @click="answare === 'finalizar' ? pushHome() : answareQuestion(answare, questionary[indexQuestionary].id, index )">   
+                            {{answare}}
                         </v-btn>
                     </v-col>
                 </template>
             </v-row>
 
-            <v-row v-if="(((dataBaseQuestions.ask[dataBaseQuestions.askIndexBase] === lastQuestion) || user.score >= cutScore) && 
-                            dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] !== lastQuestion)" 
-                        class="border-chat justify-space-around pa-2" no-gutters > 
-                <template v-for="(answare,index) in dataBaseQuestionsGroup4.answare">
-                    <v-col class="border4 col-4 col-md-2" :key="index">
-                        <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsGroup4.id)"> 
-                                {{answare}}
+            <v-row v-if="healthTipsActive"  class="border-chat justify-space-around flex-row-reverse " no-gutters > 
+                    <v-col class="col-6 col-md-3 col-sm-3 my-2" > 
+                        <v-btn
+                            block max-width="100%" 
+                            class="wrap rounded-xl" 
+                            color="primary" 
+                            @click="pushHome()">   
+                            Finalizar
                         </v-btn>
+                        <Dialog :message="'lorem impsum'" :title="'teste'" :dialogActive="diagActive"/>
+                        
                     </v-col>
-                </template>
-            </v-row>
-            
-            <v-row v-if="( dataBaseQuestionsGroup4.ask[dataBaseQuestionsGroup4.askIndexG4] === lastQuestion && 
-                        user.isWorking === positive && 
-                        dataBaseQuestionsWork.ask[dataBaseQuestionsWork.askIndexWork] !== lastQuestion)" 
-                        class="border-chat justify-space-around pa-2" no-gutters > 
-                <template v-for="(answare,index) in dataBaseQuestionsWork.answare">
-                    <v-col class="border4 col-12 col-md-5 col-sm-5 mt-2"  :key="index">
-                        <v-btn block class="wrap rounded-xl" color="primary" @click="answareQuestion(answare, dataBaseQuestionsWork.id)"> 
-                                {{answare}}
-                        </v-btn>
-                    </v-col>
-                </template>
             </v-row>
 
-            <v-row v-if='healthTipsActive' class="border-chat justify-space-around pa-2" no-gutters > 
-                 <v-col class="border4 col-6 col-md-3 col-sm-3 mt-2" >
-                        <v-btn block class="wrap rounded-xl" color="primary" router to='home'> 
-                                Finalizar
-                        </v-btn>
-                    </v-col>
-            </v-row>             
         </v-container>
-
     </v-container>
 </template>
 
 <script>
 import Message from './../components/Message.vue'
 import MessageList from './../components/MessageList.vue'
-// import Avatar from './../components/Avatar.vue'
-// import Label2 from './../components/Label2.vue'
 import ToolBar from './../components/ToolBar.vue'
+import questionsBank from './../data_center/questions.js'
+import Dialog from './../components/DialogGoogleForm.vue'
 
 export default {
-    components: {ToolBar, Message, MessageList}, 
+    components: {ToolBar, Message, MessageList, Dialog}, 
     data: () => ({
         user: { age: null,
                 gender: null,
                 isWorking: null ,
-                score: 0,     
+                score: 0,
+                burnout: 0,   //In the end of the program, if the user has problems with his work, this variable will be set to the boolean true   
         },
 
-        dataBaseQuestions:{ id:'base', 
-                            askIndexBase: 0,
-                            answare: ['sim', 'nao'], 
-                            ask: [  'Sente-se nervoso(a), tenso(a) ou preocupado(a)', 'Assusta-se com facilidade', 'Tem se sentido triste ultimamente', 
-                                    'Tem chorado mais do que de costume ', 'Tem dores de cabeça frequentes ', 'Dorme mal', "Tem sensações desagradáveis no estômago",
-                                    'Tem má-digestão ', 'Tem falta de apetite ', 'Tem tremores nas mãos ', 'Cansa-se com facilidade ', 'Tem dificuldade em tomar decisões',
-                                    'Tem dificuldades para realizar com satisfação suas atividades diárias', 'Tem dificuldades no serviço (o trabalho é penoso e causa sofrimento)',
-                                    'Sente-se cansado o tempo todo', 'Tem dificuldade de pensar com clareza ', 'fim']},
-
-        dataBaseQuestionsGroup4:{ id:'g4',
-                                askIndexG4:0,
-                                classifcationG4: false, 
-                                answare: ['sim', 'nao'],
-                                ask: ['É incapaz de desempenhar um papel útil em sua vida ', 'Tem perdido o interesse pelas coisas ', 
-                                'Tem tido a ideia de acabar com a vida ', 'Sente-se uma pessoa inútil, sem préstimo' ,'fim']},
-        
-        dataBaseQuestionsWork:{ id:'work',
-                                askIndexWork:0, 
-                                answare: ['Nunca', 'Poucas vezes', 'Poucas vezes ao mês', '1 x por semana', 'Poucas vezes por semana', 'Sempre'], 
-                                ask: ['Sinto que meu trabalho está me desgastando.', 'Quando termino minha jornada de trabalho sinto-me esgotado', 
-                                'Quando me levanto pela manhã e me deparo com outra jornada de trabalho, já me sinto esgotado', 'Sinto que estou trabalhando demais.',
-                                'Sinto-me frustrado(a) com meu trabalho.', 'Sinto-me como se estivesse no limite de minhas possibilidades.', 
-                                'Sinto-me emocionalmente decepcionado(a) com meu trabalho.', 'Sinto que trabalhar todo o dia com pessoas me cansa.',
-                                'Sinto que trabalhar em contato direto com pessoas, todo o dia, me estressa.', 'Sinto que estou exercendo influência positiva na vida de pessoas através do meu trabalho.',
-                                'Creio que consigo muitas coisas valiosas nesse trabalho.', 'Sinto que posso criar, com facilidade, um clima agradável em meu trabalho',
-                                'Sinto que, no meu trabalho, os problemas emocionais são tratados de forma adequada.', 'Sinto-me estimulado depois de haver trabalhado diretamente com quem tenho que atender',
-                                'Sinto-me com muita energia no meu trabalho.', 'Sinto que trato com muita eficiência os problemas das pessoas as quais tenho que atender.', 
-                                'Sinto que posso entender facilmente as pessoas que tenho que atender.', 'Sinto que me tornei mais duro(a) com as pessoas, desde que comecei este trabalho.',
-                                'Fico preocupado(a) que este trabalho esteja me enrijecendo emocionalmente.', 'Sinto que realmente não me importa o que ocorra com as pessoas as quais tenho que atender profissionalmente.', 
-                                'Sinto que estou tratando algumas pessoas com as quais me relaciono no meu trabalho como se fossem objetos impessoais', 
-                                'Parece-me que os beneficiados com meu trabalho culpam-me por alguns de seus problemas.', 'fim']
-        },
-
-        healthTips:[`Durma bem`, `Coma bem`, `Não se irrite`,
-                    `Pratique esporte`],
+        indexQuestionary: questionsBank.questionary.part,
+        questionary: questionsBank.questionary.questions,
+        healthTips: questionsBank.healthTips.tips,
+        healthTipsActive: questionsBank.healthTips.healthTipsActive,
+        askIndex: questionsBank.questionary.askIndex,
 
         progress: 0,
-        lastQuestion: 'fim',
+        lastQuestion: questionsBank.lastQuestion,
         cutScore: 7,
+        burnoutCutScore: 29,
         faintScore: 0,
 
         addProgress: null,
@@ -147,58 +86,58 @@ export default {
         positive: true,
         sim: 'sim',
         nao: 'nao',
-        healthTipsActive: false,
+
+        diagActive:false,
+        finalMessage: '',
     }),
 
     methods: {
-        answareQuestion(answare, id){
-
-            // if(this.faintScore === this.cutScore && answare === this.nao){
-            //     this.faintScore += 1;
-            // }
-
-            console.log(answare, id);
-            if(id === 'g4' && answare == this.sim){
-                console.log(this.dataBaseQuestionsGroup4.classifcationG4);
-                this.dataBaseQuestionsGroup4.classifcationG4 = true;
-                console.log(this.dataBaseQuestionsGroup4.classifcationG4);
-            }
-            if(answare === this.sim){
-                this.user.score++;
-                this.faintScore++;
-                console.log('User Score:', this.user.score);
-            }else if(answare === 'Poucas vezes'){
-                this.user.score += 1;
-                this.faintScore++;
-                console.log('User Score:', this.user.score);
-            }else if(answare === 'Poucas vezes ao mês'){
-                this.user.score += 2;
-                this.faintScore += 2;
-                console.log('User Score:', this.user.score);
-            }else if(answare === '1 x por semana'){
-                this.user.score += 3;
-                this.faintScore += 3;
-                console.log('User Score:', this.user.score);
-            }else if(answare === 'Poucas vezes por semana'){
-                this.user.score += 4;
-                this.faintScore += 4;
-                console.log('User Score:', this.user.score);
-            }else if(answare === 'Sempre'){
-                this.user.score += 5;
-                this.faintScore += 5;
-                console.log('User Score:', this.user.score);
-            }
-
-
+        answareQuestion(answare, id, answareValue){
+            console.log(answare, id, answareValue);
+            
+            this.user.score += answareValue;
 
             console.log('User Score:', this.user.score, 'Cut Score:', this.cutScore, 'FaintScore', this.faintScore);
             console.log('Antes:', 'Progress:', this.progress, 'Cut Score:', this.cutScore);
+            
+            if(id === 'work'){
+                this.user.burnout += answareValue;
+            }
+            this.askIndex++;
+            
+            console.log('Ask index:', this.askIndex);
+            //Confere se o isuario esta trabalhando e checka se a ultima pergunta foi alcançado. Por fim, muda a parte(o questionario)
+            if(this.user.isWorking){
+                if(this.questionary[this.indexQuestionary].ask[this.askIndex] === this.lastQuestion 
+                    && this.indexQuestionary != 2){ 
+                //A primeira parte do questionario é base(SQR20) que leva o index 0. A secunda o g4, index 1, assim por diante.
+                // Só adiciono 1 no questionario se for diferente de 2(work). Seria o mesmo que usar o tamanho do vetor questionary
+                    this.indexQuestionary++;
+                    this.askIndex = 0;
+                }
+            
+            }else if(!this.user.isWorking){
+                 if(this.questionary[this.indexQuestionary].ask[this.askIndex] === this.lastQuestion && this.indexQuestionary != 1){
+                    this.indexQuestionary++;
+                    this.askIndex = 0;
+                }
+            }
 
-            if((this.faintScore === this.cutScore) && id === 'base'){
+            //ativa as dicas no fim do quesitonoario
+            if(this.questionary[this.indexQuestionary].ask[this.askIndex] === this.lastQuestion){
+                    this.healthTipsActive = true;
+            }
+
+            //modifica a barra de progresso
+            if((this.user.score === this.cutScore) && id === 'base'){
                 if(this.user.isWorking === this.positive){
-                    this.progress = 100 - (26*this.addProgress);
+                    this.indexQuestionary++;
+                    this.progress = 100 - (13*this.addProgress);
+                    this.askIndex = 0;
                 }else if(this.user.isWorking === this.negative){
                     this.progress = 100 - (4*this.addProgress);
+                    this.indexQuestionary++;
+                    this.askIndex = 0;
                 }
             }else{
                 this.progress += this.addProgress;
@@ -206,36 +145,32 @@ export default {
 
             console.log('Depois:', 'Progress:', this.progress, 'Cut Score:', this.cutScore);
             
-            switch (id){
-                case 'base':
-                    this.dataBaseQuestions.askIndexBase++;
-                    break;
-                case 'g4':
-                    this.dataBaseQuestionsGroup4.askIndexG4++;
-                    break;
-                case 'work':
-                    this.dataBaseQuestionsWork.askIndexWork++;
-                    break;
-                default:
-                    console.log('id não encontrado');
-            }
-            
         },//answareQuestion function end
 
+        //funcao para analisar o escore do usuario
         scoreAnalysis(){
             if(this.user.score >= this.cutScore){
-                this.healthTipsActive = true;
-                return `Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. 
-                Deixo aqui algumas dicas de saude e unidades de atendimento que estarão prontas para te ajudar.`;
+                this.finalMessage = "Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. Deixo aqui algumas dicas de saúde e unidades de atendimento que estarão prontas para te ajudar.";
+                if(this.user.burnout >= this.burnoutCutScore ){
+                    this.user.burnout = true
+                }
             }else{
-                this.healthTipsActive = true;
-                return `Tudo esta perfeitamente bem.`;
+                this.finalMessage = "Tudo está perfeitamente bem. Segue umas dicas de saúde, para que vocẽ continue saudável";
             }
-        },
 
-        tipsFormat(lista){
-            return lista.reduce((acumula, proximo) => acumula + '\n' + proximo);
-        }
+            this.healthTipsActive = true;
+            return this.finalMessage;
+            
+        },
+        //retorna a pergunta a ser exibida
+        questionText(){
+            return this.questionary[this.indexQuestionary].ask[this.askIndex];
+        },
+        //exibe o dialogo no fim, ou puxa o usuario para a tela inicial, só descomentar o codigo.
+        pushHome(){
+            this.diagActive = true;
+            // this.$router.push({name:'Home'});
+        },
 
     },/*End methods */
     
@@ -256,7 +191,7 @@ export default {
         }
 
         if(this.$route.params.isWorkingP === true){
-            this.addProgress = 100/42;
+            this.addProgress = 100/(42-9);
             console.log('Add Progress: ', this.addProgress);
         }else if(this.$route.params.isWorkingP === false){
             this.addProgress = 100/20;
@@ -268,53 +203,9 @@ export default {
 </script>
 
 <style scoped>
-.border{
-    /* border: 1px solid black; */
-}
-.border2{
-    /* border: 1px solid green;
-    background-color: cyan; */
-}
-
 .border-chat{
-    border: 1px solid #F5F5F5;
-    background-color: #F5F5F5;
+    border: 1px solid #EEEEEE;
+    background-color: #EEEEEE;
     border-radius: 30px;
 }
-.border4{
-    /* border: 1px solid black; */
-    /* background-color: greenyellow; */
-}
-.message{
-    display: flex;
-    align-items: center;
-    justify-items: center;
-}
-.border-image{
-    border: 1px solid black;
-}
 </style>
-
-        
-
-        <!-- <ToolBar /> -->
-            <!-- <v-toolbar  class="mt-0" color="white" short dense height="56px" app>
-                <v-btn icon>
-                    <v-icon>mdi-arrow-left</v-icon>
-                </v-btn>
-
-                <ProgressBar></ProgressBar>
-
-                <v-spacer></v-spacer>
-            </v-toolbar> -->
-        <!-- <Title v-for="(pergunta, index) in perguntas" :key="index" :title="perguntas[index]" />
-        
-        <v-btn @click="adicionaRespostaEPergunta('sim')"> 
-            sim    
-        </v-btn>
-        <v-btn @click="adicionaRespostaEPergunta('nao')"> 
-            nao
-        </v-btn>
-        <v-btn @click="limparlista()"> 
-            clear
-        </v-btn> -->

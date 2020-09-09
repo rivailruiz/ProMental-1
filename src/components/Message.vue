@@ -1,6 +1,6 @@
 <template>
-	<v-row class="border mx-md-4 justify-left" no-gutters>
-		<avatar source="avatar-boy.png" />
+	<v-row class="mx-md-4 justify-left" no-gutters>
+		<avatar source="avatar-girl2.png" />
 		<text-question :text="textIn"/>
 	</v-row>
 </template>
@@ -15,13 +15,4 @@ export default {
 };
 </script>
 <style scoped>
-.message {
-  display: flex;
-  align-items: center;
-}
-
-/* .border3{
-	border: 1px soli black;
-	background-color: green;
-} */
 </style>

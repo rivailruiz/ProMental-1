@@ -1,7 +1,10 @@
 <template>
   <!-- <v-main class="border" style="background-color:yellow"> -->
-    <v-layout row wrap justify-center align-center primary class="mx-auto my-0 white--text flex-row-reverse" style="height: 100%" >
-        <tool-bar :active='false' :icon='menu' color='primary' iconColor='white' />
+    <v-layout row wrap 
+		justify-center align-center 
+		primary 
+		class="mx-auto my-0 white--text flex-row-reverse" 
+		fill-height>
 		
         <v-flex class="border mb-0" xs8 sm4 >
             <v-img contain min-height="150px" max-height="360px" class="" src="./../assets/head.svg" />
@@ -34,10 +37,10 @@
 <script>
 
 // import BottomMenu from './../components/BottomMenu.vue'
-import ToolBar from './../components/ToolBar'
+// import ToolBar from './../components/ToolBar'
 
 export default {
-   components: {ToolBar},
+   components: {},
 
   data: () => ({
 	menu: 'mdi-menu',
@@ -49,7 +52,8 @@ export default {
     startFormPage: '/formScreenData',
     startText: "Cansaço, irritabilidade, insônia. Podem ser sintomas de stress.",
     startText2: "Visando o seu bem estar, nós preparamos um questionario de saúde mental, que tal começarmos? Não tomará muito tempo.",
-    headLine: "Bem Vindo ao ProMental"
+    headLine: "Bem Vindo ao ProMental",
+    drawer: true,
   }),
 
   methods: {},

@@ -7,14 +7,14 @@
                 height="208"
                 min-width="100"
                 max-width="300"
-                @click="toggle"
-            >
-                <v-img
-                height="128"
-                width="128"
-                class="mx-auto rounded-lg"
-                :src="require(`@/assets/${imageSource}`)"
-                />
+                @click="toggle">
+                <div class="mx-auto" style="width: 128px; height:128px;"> 
+                    <v-img
+                    height="98"
+                    width="98"
+                    class="mx-auto my-2 rounded-lg"
+                    :src="require(`@/assets/${imageSource}`)"/>
+                </div>
                 <v-card-title v-if="!active" class="justify-center font-weight-bold">{{gender}}</v-card-title>
                 <v-card-title v-else-if="active" class="white--text justify-center font-weight-bold">{{gender}}</v-card-title>
             </v-card>

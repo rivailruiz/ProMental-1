@@ -12,11 +12,10 @@
 <script>
 import ProgressBar from "./../components/ProgressBar.vue";
 export default {
-  props: ['progressVal', 'backTo', 'active', 'icon', 'color', 'iconColor'],
-  components: { ProgressBar },
-  color: 'white',
+	props: ['progressVal', 'backTo', 'active', 'icon', 'color', 'iconColor','onClick'],
+	components: { ProgressBar },
+
 };
-//mdi-arrow-left
 </script>
 
 <style scoped>

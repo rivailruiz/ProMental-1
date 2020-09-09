@@ -12,7 +12,7 @@
       :striped="striped"
       :top="top"
       :value="progressValue"
-      color="light-blue"
+      color="primary"
       class="rounded-xl"
     ></v-progress-linear>
 </template>
