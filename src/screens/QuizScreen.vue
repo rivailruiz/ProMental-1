@@ -1,21 +1,24 @@
 <template> 
     <v-container class=" align-content-space-between "  fill-height fluid >
         <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' />
-        <v-container fluid no-gutters>    
+        <v-container class="px-0 py-0" fluid no-gutters>    
             <v-row> 
-                <v-col cols="12 pa-0 ">
+                <v-col cols="12">
                     <message  v-if="(questionText() !== lastQuestion)" :textIn="questionText()"/>
                     
                     <template v-if="(healthTipsActive)">
-                        <message :textIn="scoreAnalysis()"/>
+                        <message id='text' :textIn="scoreAnalysis()" :propLink="true"/>
                         <message-list class="mt-2" :list="healthTips"/>
+                        <v-btn class='primary mt-2 mx-md-4 radius' @click="googleMaps()" depressed large> 
+                            Unidades de saúde
+                        </v-btn>
                     </template>
                 </v-col>
             </v-row>
         </v-container>
 
 
-        <v-container class="" fluid wrap>
+        <v-container fluid wrap>
             <v-row v-if="!healthTipsActive"  class="border-chat justify-space-around flex-row-reverse pa-2" no-gutters  > 
                 <template v-for="(answare,index) in questionary[indexQuestionary].answare">
                     <v-col
@@ -41,7 +44,7 @@
                             @click="pushHome()">   
                             Finalizar
                         </v-btn>
-                        <Dialog :message="'lorem impsum'" :title="'teste'" :dialogActive="diagActive"/>
+                        <Dialog :message="dialogText" :title="dialogTitle" :dialogActive="diagActive"/>
                         
                     </v-col>
             </v-row>
@@ -88,6 +91,8 @@ export default {
         nao: 'nao',
 
         diagActive:false,
+        dialogTitle: 'Pesquisa de saúde mental',
+        dialogText: 'Este questionario foi desenvolvido juntamente com a Universidade Federal Fluminense, ajude-nos com uma pesquisa rapida.',
         finalMessage: '',
     }),
 
@@ -150,7 +155,8 @@ export default {
         //funcao para analisar o escore do usuario
         scoreAnalysis(){
             if(this.user.score >= this.cutScore){
-                this.finalMessage = "Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. Deixo aqui algumas dicas de saúde e unidades de atendimento que estarão prontas para te ajudar.";
+                this.finalMessage = `Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. 
+                Deixo aqui algumas dicas de saúde e unidades de atendimento que estarão prontas para te ajudar.`;
                 if(this.user.burnout >= this.burnoutCutScore ){
                     this.user.burnout = true
                 }
@@ -159,6 +165,7 @@ export default {
             }
 
             this.healthTipsActive = true;
+
             return this.finalMessage;
             
         },
@@ -171,6 +178,10 @@ export default {
             this.diagActive = true;
             // this.$router.push({name:'Home'});
         },
+
+        googleMaps(){
+            window.location.href = "https://www.google.com.br/maps/search/hospitais/"
+        }
 
     },/*End methods */
     
@@ -207,5 +218,8 @@ export default {
     border: 1px solid #EEEEEE;
     background-color: #EEEEEE;
     border-radius: 30px;
+}
+.radius{
+    border-radius: 8px;
 }
 </style>

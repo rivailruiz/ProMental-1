@@ -1,8 +1,8 @@
 <template>
-    <v-container class=" align-content-space-between" fluid fill-height>
+    <v-container class="align-content-space-between" fluid fill-height>
         <tool-bar :active='false' color='white' :backTo='homeRouter' icon='mdi-arrow-left'/>
-        <v-container fluid>
-            <v-row class="mt-2">
+        <v-container class="px-auto py-0" fluid>
+            <v-row>
                 <v-col class=" pa-0" cols="12">
                     <Message :textIn='botQuestion[0]'/>
                 </v-col>

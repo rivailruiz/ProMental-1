@@ -1,5 +1,5 @@
 <template>
-	<v-row class="mx-md-4 justify-left" no-gutters>
+	<v-row class="mx-md-4 align-center" no-gutters>
 		<avatar source="avatar-girl2.png" />
 		<text-question :text="textIn"/>
 	</v-row>
