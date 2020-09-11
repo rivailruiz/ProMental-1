@@ -1,6 +1,6 @@
 <template> 
     <v-container class=" align-content-space-between "  fill-height fluid >
-        <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' />
+        <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' :flat="true"/>
         <v-container class="px-0 py-0" fluid no-gutters>    
             <v-row> 
                 <v-col cols="12">
@@ -9,7 +9,11 @@
                     <template v-if="(healthTipsActive)">
                         <message id='text' :textIn="scoreAnalysis()" :propLink="true"/>
                         <message-list class="mt-2" :list="healthTips"/>
-                        <v-btn class='primary mt-2 mx-md-4 radius' @click="googleMaps()" depressed large> 
+                        <v-btn 
+                            v-if="burnout == true"
+                            class='primary mt-2 mx-md-4 radius' 
+                            @click="googleMaps()" 
+                            depressed large> 
                             Unidades de saúde
                         </v-btn>
                     </template>
@@ -67,9 +71,9 @@ export default {
                 gender: null,
                 isWorking: null ,
                 score: 0,
-                burnout: 0,   //In the end of the program, if the user has problems with his work, this variable will be set to the boolean true   
+                burnout: 0, //No fim do programa, se o usuario tem burnout, essa variavel vira um Boolean TRUE  
         },
-
+        
         indexQuestionary: questionsBank.questionary.part,
         questionary: questionsBank.questionary.questions,
         healthTips: questionsBank.healthTips.tips,
@@ -91,8 +95,9 @@ export default {
         nao: 'nao',
 
         diagActive:false,
-        dialogTitle: 'Pesquisa de saúde mental',
-        dialogText: 'Este questionario foi desenvolvido juntamente com a Universidade Federal Fluminense, ajude-nos com uma pesquisa rapida.',
+        dialogTitle: 'Colabore',
+        dialogText: `Este questionario foi desenvolvido por Professores e alunos da UFF.(Nenhum dos seus dados foram gravados.) 
+                    Com intuido de promover a pesquisa no país desenvolvemos um formulario sobre saúde mental, deseja participar? `,
         finalMessage: '',
     }),
 
@@ -186,28 +191,20 @@ export default {
     },/*End methods */
     
     created(){
-        this.user.age = this.$route.params.ageP;
-        this.user.gender = this.$route.params.genderP;
-        this.user.isWorking = this.$route.params.isWorkingP;
-
-        console.log(this.user);
-
-        if(this.$route.params.genderP === 'male'){
-            this.cutScore = 6;
-        
-        }else if(this.$route.params.genderP === 'female'){
-            console.log('cutScore: ', this.cutScore);
-            this.cutScore = 7;
-            console.log('cutScore:', this.cutScore);
+        this.user = this.$route.params.user;
+        console.log('user do QuizScreen: ',this.user);
+        console.log('trabalha:', this.user.isWorking)
+        switch (this.user.isWorking){
+            case true:
+                this.addProgress = 100/(29); //O usuario precisa responder 29 questoes, poderia ser utilizado o tamanho do vetor questions, que se encontra no arquivo questions.js.
+                break;
+            case false:
+                this.addProgress = 100/20;//Novamente poderia ser utilizado o tamanho, mais, o uso de tamanho de um vetor no js nao é tão confiavel. 
+                break;
+            default:
+                this.addProgress = null;
         }
-
-        if(this.$route.params.isWorkingP === true){
-            this.addProgress = 100/(42-9);
-            console.log('Add Progress: ', this.addProgress);
-        }else if(this.$route.params.isWorkingP === false){
-            this.addProgress = 100/20;
-            console.log('Add Progress:', this.addProgress);
-        }
+        console.log('Add Progress:', this.addProgress);
     },
 
 }

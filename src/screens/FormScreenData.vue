@@ -1,6 +1,6 @@
 <template>
     <v-container class="align-content-space-between" fluid fill-height>
-        <tool-bar :active='false' color='white' :backTo='homeRouter' icon='mdi-arrow-left'/>
+        <tool-bar :active='false' color='white' :backTo='homeRouter' icon='mdi-arrow-left' :flat='true'/>
         <v-container class="px-auto py-0" fluid>
             <v-row>
                 <v-col class=" pa-0" cols="12">
@@ -96,8 +96,11 @@ export default {
         user: {
                 gender: null,
                 age: null,
-                isWorking: null
+                isWorking: null,
+                score: null,
+                burnout: null
         },
+        
         ageField: '',
         maxTextAgeInput: 3,
         
@@ -117,6 +120,7 @@ export default {
             {imageSource: 'avatar-boy.png', label: 'Homem', cardColor: 'primary'}, 
             {imageSource: 'avatar-girl.png', label: 'Mulher', cardColor: 'pink'}
         ],
+        
         workOptions: [
             {label: 'Trabalho', value: true},
             {label: 'Não Trabalho', value: false}
@@ -126,31 +130,23 @@ export default {
     },
     methods: {
         confirmar(step){
-            console.log(this.steps)
             if(step === 'genderOk'){
                 this.steps = step;
-                if(this.cardSelection == 0){
-                    this.gender = 'male';
-                }else if(this.cardSelection == 1){
-                    this.gender = 'female';
-                }
-                this.answareIndex ++;
+                this.user.gender = this.cardSelecion ? 'female':'male';
 
             }else if(step === 'workOk'){
                 this.steps = step;
-                console.log(this.radio);
-                this.isWorking = this.radio;
-                this.answareIndex++;  
+                this.user.isWorking = this.radio; 
             
             }else if(step === 'ageOk'){
                 console.log('entrou')    
                 if(this.$refs.ageForm.validate()){
-                    console.log(this.$refs.ageForm);
                     this.steps = step;
-                    this.age = this.ageField;
-                    this.$router.push({name:'QuizScreen', params:{genderP: this.gender, isWorkingP: this.radio , ageP: this.age }})
+                    this.user.age = this.ageField;
+                    this.$router.push({name:'QuizScreen', params:{user:this.user}})
                 }
             }
+            this.answareIndex++;
 
         }
 

@@ -40,12 +40,12 @@
 		methods: {
 			clickButton(option){
 				if(option){
-                    console.log(option);
                     window.location.href = "https://forms.gle/LgGVW5C6Kqvwfqx66"
+                    this.$router.push({name:'Home'});
+
                 }else{
                     this.$router.push({name:'Home'});
                 }
-				
 			}
 		}
 	}

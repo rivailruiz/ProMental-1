@@ -1,5 +1,5 @@
 <template>
-	<v-col class="border-image col-2 col-md-1 col-sm-1">
+	<v-col class="col-2 col-md-1 col-sm-1">
 		<v-avatar size="48">
 			<v-img class="border-image" :src="require(`./../assets/${source}`)" alt="logo" />
 		</v-avatar>
