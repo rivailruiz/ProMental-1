@@ -1,6 +1,10 @@
 <template> 
     <v-container class=" align-content-space-between "  fill-height fluid >
-        <tool-bar backTo='/home' color='white' :progressVal="progress" :icon='arrowLeft' :flat="true"/>
+        <tool-bar backTo='/home' color='white' 
+            :progressVal="progress" 
+            :icon='arrowLeft' 
+            :flat="true"/>
+
         <v-container class="px-0 py-0" fluid no-gutters>    
             <v-row> 
                 <v-col cols="12">
@@ -10,9 +14,9 @@
                         <message id='text' :textIn="scoreAnalysis()" :propLink="true"/>
                         <message-list class="mt-2" :list="healthTips"/>
                         <v-btn 
-                            v-if="burnout == true"
+                            v-if="healthUnits"
                             class='primary mt-2 mx-md-4 radius' 
-                            @click="googleMaps()" 
+                            @click="googleMapsRedirect()" 
                             depressed large> 
                             Unidades de saúde
                         </v-btn>
@@ -73,7 +77,7 @@ export default {
                 score: 0,
                 burnout: 0, //No fim do programa, se o usuario tem burnout, essa variavel vira um Boolean TRUE  
         },
-        
+
         indexQuestionary: questionsBank.questionary.part,
         questionary: questionsBank.questionary.questions,
         healthTips: questionsBank.healthTips.tips,
@@ -99,9 +103,11 @@ export default {
         dialogText: `Este questionario foi desenvolvido por Professores e alunos da UFF.(Nenhum dos seus dados foram gravados.) 
                     Com intuido de promover a pesquisa no país desenvolvemos um formulario sobre saúde mental, deseja participar? `,
         finalMessage: '',
+        healthUnits: false,
     }),
 
     methods: {
+
         answareQuestion(answare, id, answareValue){
             console.log(answare, id, answareValue);
             
@@ -116,7 +122,7 @@ export default {
             this.askIndex++;
             
             console.log('Ask index:', this.askIndex);
-            //Confere se o isuario esta trabalhando e checka se a ultima pergunta foi alcançado. Por fim, muda a parte(o questionario)
+            //Confere se o usuario esta trabalhando e checka se a ultima pergunta foi alcançado. Por fim, muda a parte(o questionario)
             if(this.user.isWorking){
                 if(this.questionary[this.indexQuestionary].ask[this.askIndex] === this.lastQuestion 
                     && this.indexQuestionary != 2){ 
@@ -139,7 +145,8 @@ export default {
             }
 
             //modifica a barra de progresso
-            if((this.user.score === this.cutScore) && id === 'base'){
+            if((this.user.score === this.cutScore) 
+                && id === 'base'){
                 if(this.user.isWorking === this.positive){
                     this.indexQuestionary++;
                     this.progress = 100 - (13*this.addProgress);
@@ -152,16 +159,17 @@ export default {
             }else{
                 this.progress += this.addProgress;
             }
-
+            
             console.log('Depois:', 'Progress:', this.progress, 'Cut Score:', this.cutScore);
             
         },//answareQuestion function end
 
-        //funcao para analisar o escore do usuario
+        //funcao para analisar o score do usuario
         scoreAnalysis(){
             if(this.user.score >= this.cutScore){
-                this.finalMessage = `Olha, você pode estar um pouco estrassada(o) devido o seu dia, a dia. 
+                this.finalMessage = `Olha, você pode estar um pouco estressada(o) devido o seu dia, a dia. 
                 Deixo aqui algumas dicas de saúde e unidades de atendimento que estarão prontas para te ajudar.`;
+                this.healthUnits = true;
                 if(this.user.burnout >= this.burnoutCutScore ){
                     this.user.burnout = true
                 }
@@ -184,8 +192,12 @@ export default {
             // this.$router.push({name:'Home'});
         },
 
-        googleMaps(){
+        googleMapsRedirect(){
             window.location.href = "https://www.google.com.br/maps/search/hospitais/"
+        },
+        
+        setProgressPercentage(percentage){
+            localStorage.setItem('pP', percentage)
         }
 
     },/*End methods */
@@ -193,7 +205,7 @@ export default {
     created(){
         this.user = this.$route.params.user;
         console.log('user do QuizScreen: ',this.user);
-        console.log('trabalha:', this.user.isWorking)
+        console.log('trabalha:', this.user.isWorking);
         switch (this.user.isWorking){
             case true:
                 this.addProgress = 100/(29); //O usuario precisa responder 29 questoes, poderia ser utilizado o tamanho do vetor questions, que se encontra no arquivo questions.js.

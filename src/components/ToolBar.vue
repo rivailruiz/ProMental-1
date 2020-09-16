@@ -4,7 +4,8 @@
         <v-icon :color='iconColor'>{{icon}}</v-icon>
       </v-btn>
       
-      <ProgressBar :activeBar='active' :progressValue="progressVal"></ProgressBar>
+      <ProgressBar :activeBar='active' 
+      :progressValue="progressVal"></ProgressBar>
 
     </v-app-bar>
 </template>
@@ -12,7 +13,7 @@
 <script>
 import ProgressBar from "./../components/ProgressBar.vue";
 export default {
-	props: ['progressVal', 'backTo', 'active', 'icon', 'color', 'iconColor','onClick', 'flat'],
+	props: ['progressVal', 'backTo', 'active', 'icon', 'color', 'iconColor','onClick', 'flat',],
 	components: { ProgressBar },
 
 };

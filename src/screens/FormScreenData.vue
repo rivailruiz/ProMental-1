@@ -1,6 +1,12 @@
 <template>
     <v-container class="align-content-space-between" fluid fill-height>
-        <tool-bar :active='false' color='white' :backTo='homeRouter' icon='mdi-arrow-left' :flat='true'/>
+        <tool-bar 
+            :active='false' 
+            :flat='true'
+            :backTo='homeRouter' 
+            color='white' 
+            icon='mdi-arrow-left' 
+            />
         <v-container class="px-auto py-0" fluid>
             <v-row>
                 <v-col class=" pa-0" cols="12">
@@ -107,7 +113,7 @@ export default {
         radio: null,
         answareIndex: 0,
         
-        botQuestion: ['Olá seja bem vindo ao questionário, antes de começarmos, que tal contar um pouco sobre você?'],
+        botQuestion: ['Olá seja bem vindo ao questionário, antes de começar, que tal contar um pouco sobre você?'],
         userAnsware: ['Eu sou', 'No momento eu', 'Eu tenho'],
         
         ageRule: [
@@ -117,8 +123,8 @@ export default {
         homeRouter: '/home',
 
         cardGender: [
-            {imageSource: 'avatar-boy.png', label: 'Homem', cardColor: 'primary'}, 
-            {imageSource: 'avatar-girl.png', label: 'Mulher', cardColor: 'pink'}
+            {imageSource: 'avatar-men.png', label: 'Homem', cardColor: 'primary'}, 
+            {imageSource: 'avatar-women2.png', label: 'Mulher', cardColor: 'pink'}
         ],
         
         workOptions: [
