@@ -1,6 +1,6 @@
 <template>
 	<v-row class="mx-md-4 align-center" no-gutters>
-		<avatar source="avatar-girl2.png" />
+		<avatar source="avatar-women.png" />
 		<text-question :text="textIn"/>
 	</v-row>
 </template>
